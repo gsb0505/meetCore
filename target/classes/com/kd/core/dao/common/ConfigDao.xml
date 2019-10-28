@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.common.ConfigDao">
+	<resultMap type="com.kd.core.entity.Config" id="Config">
+		<result property="id" column="id"/>
+		<result property="num" column="num"/>	
+		<result property="mark" column="mark"/>	
+		<result property="code" column="code"/>	
+		<result property="remark" column="remark"/>	
+	</resultMap>
+	
+	<select id="getModel" parameterType="String" resultMap="Config">
+			select * from system_config where id=#{id}
+	</select>
+	<select id="getPagedList" parameterType="com.kd.core.entity.Config" resultMap="Config">
+			select * from system_config where 1=1 
+			<if test="num!=null and num!=''">
+				and num=#{num}
+			</if>
+			<if test="remark!=null and remark!=''">
+				and remark like "%"#{remark}"%"
+			</if>
+	</select>
+	<select id="quertBaseDate" resultType="String">
+		select now()
+	</select>
+	<insert id="insert" parameterType="com.kd.core.entity.Config">
+		insert into system_config(num,mark,code,remark) values(#{num},#{mark},#{code},#{remark});
+	</insert>
+	<update id="update" parameterType="com.kd.core.entity.Config">
+		update system_config set code=#{code},num=#{num},mark=#{mark},remark=#{remark} where id=#{id}
+	</update>
+	<delete id="delete" parameterType="String">
+		delete from system_config where id=#{value}
+	</delete>
+	
+	<select id="findMaxCode" resultType="java.lang.String">
+		select `code` FROM system_config ORDER BY `code` DESC LIMIT 1
+	</select>
+	<select id="getModelByCode" parameterType="String" resultMap="Config" >
+		select * from system_config where code = #{code}
+	</select>
+</mapper>

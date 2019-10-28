@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.organization.OrganizationDao">
+  <resultMap id="BaseResultMap" type="com.kd.core.entity.Organization">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="agency_no" jdbcType="VARCHAR" property="agencyNo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <resultMap id="OrgDepartmentJob" type="com.kd.core.entity.OrgDepartmentJob">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="org_id" jdbcType="INTEGER" property="orgId" />
+    <result column="department_id" jdbcType="INTEGER" property="departmentId" />
+    <result column="job_ids" jdbcType="VARCHAR" property="jobIds" />
+  </resultMap>
+  <resultMap id="ODJ" type="com.kd.core.dto.ODJDto">
+    <result column="org_id" jdbcType="VARCHAR" property="orgId" />
+    <result column="org_no" jdbcType="VARCHAR" property="orgNo" />
+    <result column="org_name" jdbcType="VARCHAR" property="orgName" />
+    <result column="dep_id" jdbcType="VARCHAR" property="depId" />
+    <result column="dep_no" jdbcType="VARCHAR" property="depNo" />
+    <result column="dep_Name" jdbcType="VARCHAR" property="depName" />
+    <result column="job_id" jdbcType="VARCHAR" property="jobId" />
+    <result column="job_no" jdbcType="VARCHAR" property="jobNo" />
+    <result column="job_Name" jdbcType="VARCHAR" property="jobName" />
+  </resultMap>
+  <sql id="OrgDepartmentJob_Column_List">
+    Id, org_id, department_id, job_ids
+  </sql>
+  <sql id="Base_Column_List">
+    Id, agency_no, name, remark
+  </sql>
+  <select id="getPagedList" resultMap="BaseResultMap" parameterType="com.kd.core.entity.Organization">
+	select 
+		<include refid="Base_Column_List" />
+    from organization 
+		<where>
+		    	1=1
+		    	 <if test="agencyNo != null and agencyNo !=''">
+			       and agency_no like "%"#{agencyNo}"%"
+			     </if>
+			     <if test="name != null and name !=''">
+			       and name like "%"#{name}"%"
+			     </if>
+		</where>
+		order by id desc
+    </select> 
+  <select id="getModel" parameterType="com.kd.core.entity.Organization" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from organization
+    where 
+    <choose>
+    	<when test="creator != null and creator !='' and creator=='agency_no'">
+    		agency_no = #{agencyNo}
+    	</when>
+    	<when test="creator != null and creator !='' and creator=='name'">
+    		`name` = #{name}
+    	</when>
+    	<otherwise>Id = #{id,jdbcType=INTEGER}</otherwise>
+    </choose>
+  </select>
+  <select id="getAllOrg" resultMap="BaseResultMap">
+  	select * 
+  	from organization
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from organization
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kd.core.entity.Organization">
+    insert into organization (Id, agency_no, name, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{agencyNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <update id="update" parameterType="com.kd.core.entity.Organization">
+    update organization
+    set agency_no = #{agencyNo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+	<select id="getDepartsJobsByCondition" resultMap="OrgDepartmentJob" parameterType="com.kd.core.entity.OrgDepartmentJob">
+		select *
+		from org_department
+		where 1=1 
+			<if test="orgId != null and orgId != ''">
+				and org_id = #{orgId}
+			</if>
+			<if test="departmentId != null and departmentId != ''">
+				and department_id = #{departmentId}
+			</if> 
+	</select>
+	<select id="findRecord" resultMap="OrgDepartmentJob" parameterType="com.kd.core.entity.OrgDepartmentJob">
+		select *
+		from org_department
+		where 1=1 and org_id = #{orgId} and department_id = #{departmentId}
+	</select>
+	<select id="queryODJList" resultMap="ODJ" parameterType="com.kd.core.entity.OrgDepartmentJob">
+select org.id org_id,org.agency_no org_no,org.name org_name,
+				dep.id dep_id,dep.department_no dep_no,dep.name dep_name
+		from org_department odj 
+    left join organization org on odj.org_id = org.id 	
+    left join department dep on odj.department_id = dep.id  
+	order by odj.org_id,odj.department_id
+	</select>
+	<insert id="addRow" parameterType="com.kd.core.entity.OrgDepartmentJob">
+		insert into org_department (org_id,department_id)
+		values(#{orgId},#{departmentId})
+	</insert>
+	<delete id="delRow" parameterType="com.kd.core.entity.OrgDepartmentJob">
+		delete from org_department where org_id = #{orgId} and department_id = #{departmentId} 
+	</delete>
+	
+</mapper>

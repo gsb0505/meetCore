@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kd.core.dao.meetRoom.MeetRoomDao" >
+ <resultMap id="OrderDetailMap" type="com.kd.core.entity.OrderDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="glide_no" property="glideNo" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="meetName" property="meetName" jdbcType="VARCHAR" />
+    <result column="meetDate" property="meetDate" jdbcType="VARCHAR" />
+    <result column="meetStartTime" property="meetStartTime" jdbcType="VARCHAR" />
+    <result column="meetEndTime" property="meetEndTime" jdbcType="VARCHAR" />
+    <result column="specialdemand" property="specialdemand" jdbcType="VARCHAR" />
+    <result column="emailNotification" property="emailNotification" jdbcType="VARCHAR" />
+    <result column="meetRoomID" property="meetRoomID" jdbcType="VARCHAR" />
+     <result column="meetRoomName" property="meetRoomName" jdbcType="VARCHAR" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="terminalID" property="terminalId" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
+    <result column="err_code" property="errCode" jdbcType="INTEGER" />
+
+  </resultMap>
+  <resultMap id="MeetRoomMap" type="com.kd.core.entity.MeetRoom" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="meetRoomID" property="meetRoomID" jdbcType="VARCHAR" />
+    <result column="meetRoomName" property="meetRoomName" jdbcType="VARCHAR" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="meetRoomType" property="meetRoomType" jdbcType="INTEGER" />
+    <result column="meetRoomTypeName" property="meetRoomTypeName" jdbcType="INTEGER" />
+    <result column="personID" property="personID" jdbcType="INTEGER" />
+    <result column="person" property="person" jdbcType="VARCHAR" />
+    <result column="terminalNo" property="terminalNo" jdbcType="VARCHAR" />
+    <result column="operator_No" property="creator" jdbcType="VARCHAR" />
+    <result column="meetNoticeContent" property="meetNoticeContent" jdbcType="VARCHAR" />
+
+<association property="orderDetailList" column="id" select="getMeetRoomList"/>
+  </resultMap>
+  
+    <select id="getMeetRoomList" resultMap="OrderDetailMap" parameterType="String">
+   	 select 
+	 id, glide_no, create_time, update_time, meetName, meetDate, meetStartTime, meetEndTime, 
+     err_code, specialdemand, emailNotification, meetRoomID, remark, creator
+    from tradeorder_detail td 
+  where
+   		td.meetRoomID=#{meetRoomID} 
+   		and DATE_FORMAT(td.meetDate,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
+    	and ((td.meetStartTime &lt;= DATE_FORMAT(now(),'%H:%i') and td.meetEndTime &gt;= DATE_FORMAT(now(),'%H:%i')) 
+    	or (td.meetStartTime &gt;= DATE_FORMAT(now(),'%H:%i')))
+    	and td.err_code = 2
+   	order by td.meetStartTime asc
+  </select>
+
+  <sql id="Base_Column_List" >
+   id, create_time, update_time,meetRoomID, meetRoomName, status, meetRoomType, personID, terminalNo,operator_No
+  </sql>
+  <select id="getModel" resultMap="MeetRoomMap" parameterType="java.lang.Long" >
+    select   <include refid="Base_Column_List" /> from meetroom t
+    where t.id = #{id,jdbcType=BIGINT}
+  </select>
+  
+    <select id="getModelTerminalNo" resultMap="MeetRoomMap" parameterType="String" >
+    select   t.id,
+	t.create_time,
+	t.update_time,
+	t.meetRoomID,
+	meetRoomName,
+	t.STATUS,
+	meetRoomType,
+	personID,
+	terminalNo,
+	t.operator_No,
+	mn.meetNoticeContent from meetroom t
+     LEFT JOIN meetnotice mn ON mn.meetRoomID=t.id and mn.`status`=0
+    where t.terminalNo = #{terminalNo,jdbcType=VARCHAR}
+  </select>
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from meetroom
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.kd.core.entity.MeetRoom" >
+    insert into meetroom (create_time, update_time, 
+      meetRoomID, meetRoomName, status, meetRoomType, personID,terminalNo,operator_No)
+    values (now(), now(), 
+      #{meetRoomID,jdbcType=VARCHAR}, #{meetRoomName,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},
+      #{meetRoomType,jdbcType=INTEGER}, #{personID,jdbcType=VARCHAR},#{terminalNo,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR})
+  </insert>
+  
+ 
+ 
+  <update id="update" parameterType="com.kd.core.entity.MeetRoom" >
+    update meetroom
+    <set >
+        update_time =NOW(),
+      <if test="meetRoomID != null and meetRoomID !=''" >
+        meetRoomID = #{meetRoomID,jdbcType=VARCHAR},
+      </if>
+      <if test="meetRoomName != null and meetRoomName !=''" >
+        meetRoomName = #{meetRoomName,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="meetRoomType != null" >
+       meetRoomType = #{meetRoomType,jdbcType=INTEGER},
+      </if>
+      <if test="personID != null" >
+        personID = #{personID,jdbcType=INTEGER},
+      </if>
+      <if test="terminalNo != null and terminalNo != ''">
+      	terminalNo = #{terminalNo},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getPagedList" resultMap="MeetRoomMap" parameterType="com.kd.core.entity.MeetRoom">
+ 	select   t.id, t.create_time,t.operator_No, t.update_time, t.meetRoomID, t.meetRoomName,  t.status, t.meetRoomType, 
+    t.personID,ui.userid as person, t.terminalNo,ai.code as meetRoomTypeName from meetRoom t
+	left JOIN system_basedata ai ON t.meetRoomType=ai.code
+	left JOIN user_info ui ON t.personID=ui.id
+   	<where>
+   		1=1
+   		<if test="meetRoomID !=null and meetRoomID !=''">
+   			and  t.meetRoomID like  '%${meetRoomID}%'
+   		</if>
+   		<if test="meetRoomName !=null and meetRoomName !=''">
+   			and t. meetRoomName like  '%${meetRoomName}%'
+   		</if>
+   		<if test="status !=null and status !=''">
+   			and  t.status = #{status}
+   		</if>
+   	
+   		<if test="meetRoomType !=null and meetRoomType !=''">
+   			and  t.meetRoomType = #{meetRoomType}
+   		</if>
+   	</where>
+   	order by t.create_time desc
+  </select>
+  <select id="getModelList" resultMap="MeetRoomMap" parameterType="com.kd.core.entity.MeetRoom">
+  	select mr.*  ,ui.userid as person from meetRoom mr 
+  left JOIN user_info ui ON mr.personID=ui.id
+  </select>
+  
+
+  <!-- 根据终端号查询 -->
+  <select id="findByTerminalNo" resultMap="MeetRoomMap" parameterType="java.lang.String" >
+  	select * from meetRoom where meetRoomID = #{meetRoomID}
+  </select>
+  
+  <!-- 根据实体类参数查询终端信息 -->
+  <select id="selectByParam" resultMap="MeetRoomMap" parameterType="com.kd.core.entity.MeetRoom">
+  	select <include refid="Base_Column_List" /> from meetRoom
+  	<where>
+  		1=1
+      <if test="meetRoomName != null and meetRoomName !=''" >
+      and   meetRoomName = #{meetRoomName}
+      </if>
+      <if test="meetRoomID != null and meetRoomID !=''" >
+      and   meetRoomID = #{meetRoomID}
+      </if>
+      
+	<if test="meetRoomType != null and meetRoomType !=''">
+      	and meetRoomType = #{meetRoomType,jdbcType=VARCHAR}
+      </if>
+  	</where>
+  </select>
+  
+  <!-- 根据实体类参数查询终端数量 -->
+  <select id="quantityByParam" resultType="java.lang.Integer" parameterType="com.kd.core.entity.MeetRoom">
+  	select count(*) from meetRoom
+  	<where>
+  		1=1
+	<if test="meetRoomID != null and meetRoomID !=''" >
+      and   meetRoomID = #{meetRoomID}
+      </if>
+      <if test="meetRoomType != null and meetRoomType !=''">
+      	and meetRoomType = #{meetRoomType,jdbcType=VARCHAR}
+      </if>
+  	</where>
+  </select>
+</mapper>

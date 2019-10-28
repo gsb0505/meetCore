@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.component.ButtonDao">
+	<resultMap type="com.kd.core.dto.ButtonDto" id="ButtonDtoEntity">
+		<result property="btnId" column="btn_Id" />
+		<result property="btnText" column="btn_Text" jdbcType="VARCHAR" />
+		<result property="btnIcon" column="btn_Icon" jdbcType="VARCHAR" />
+		<result property="btnCss" column="btn_Css" jdbcType="VARCHAR" />
+		<result property="btnProp" column="btn_Prop" jdbcType="VARCHAR" />
+		<result property="menuId" column="MENU_ID" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+
+	<!-- 基础数据调用查询 -->
+	<select id="getModelList" parameterType="java.lang.String" resultMap="ButtonDtoEntity">
+		select a.* ,b.MENU_ID 
+		from button a,
+			(select a.MENU_ID,a.BTN_ID from resource_button a
+				where  a.USER_AGENT=1 and a.MENU_ID IN 
+			(select MENU_ID from role_resource where user_agent=1 and ROLE_ID =#{roleId})) b
+		where a.BTN_ID=b.BTN_ID and a.user_agent=1 and a.BTN_ID IN
+			(select a.BTN_ID from resource_button a where  a.USER_AGENT=1 and a.MENU_ID IN 
+				(select MENU_ID from role_resource where user_agent=1 and ROLE_ID =#{roleId}))
+	</select>
+	
+	<select id="getModel" parameterType="MenuDto" resultType="java.lang.String">
+		select btn_Id from role_resource where menu_id=#{menuId} and role_id=#{roleId}
+	</select>
+	
+	<select id="qeuryAllButton"  resultMap="ButtonDtoEntity">
+		select * from button 
+	</select>
+	
+	
+	
+	
+	
+	
+</mapper>

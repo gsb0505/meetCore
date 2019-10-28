@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans-4.1.xsd   
+    http://www.springframework.org/schema/tx   
+    http://www.springframework.org/schema/tx/spring-tx-4.1.xsd   
+    http://www.springframework.org/schema/aop    
+    http://www.springframework.org/schema/aop/spring-aop-4.1.xsd
+    http://www.springframework.org/schema/context 
+    http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+	<!-- 导入属性配置文件 -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<!-- 配置数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url}">
+			<!-- <value>jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8</value> -->
+		</property>
+		<property name="username" value="${jdbc.username}"></property>
+
+		<property name="password" value="${jdbc.password}"></property>
+
+		<property name="filters" value="${durid.filters}" />
+
+		<property name="maxActive" value="${durid.maxActive}" />
+		<property name="initialSize" value="${durid.initialSize}" />
+		<property name="maxWait" value="${durid.maxWait}" />
+		<property name="minIdle" value="${durid.minIdle}" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="${durid.timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${durid.minEvictableIdleTimeMillis}" />
+
+		<property name="validationQuery" value="${durid.validationQuery}" />
+		<property name="testWhileIdle" value="${durid.testWhileIdle}" />
+		<property name="testOnBorrow" value="${durid.testOnBorrow}" />
+		<property name="testOnReturn" value="${durid.testOnReturn}" />
+
+		<property name="poolPreparedStatements" value="${durid.poolPreparedStatements}" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="${durid.maxPoolPreparedStatementPerConnectionSize}" />
+	</bean>
+
+	<!-- 配置数据源 -->
+	<!-- <bean id="dataSource_two" class="com.alibaba.druid.pool.DruidDataSource"
+		init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${jdbc.driver}"></property>
+		<property name="url" value="${jdbc.url_two}">
+			<value>jdbc:mysql://localhost:3306/test?useUnicode=true&amp;characterEncoding=utf-8</value>
+		</property>
+		<property name="username" value="${jdbc.username_two}"></property>
+
+		<property name="password" value="${jdbc.password_two}"></property>
+
+		<property name="filters" value="${durid.filters}" />
+
+		<property name="maxActive" value="${durid.maxActive}" />
+		<property name="initialSize" value="${durid.initialSize}" />
+		<property name="maxWait" value="${durid.maxWait}" />
+		<property name="minIdle" value="${durid.minIdle}" />
+
+		<property name="timeBetweenEvictionRunsMillis" value="${durid.timeBetweenEvictionRunsMillis}" />
+		<property name="minEvictableIdleTimeMillis" value="${durid.minEvictableIdleTimeMillis}" />
+
+		<property name="validationQuery" value="${durid.validationQuery}" />
+		<property name="testWhileIdle" value="${durid.testWhileIdle}" />
+		<property name="testOnBorrow" value="${durid.testOnBorrow}" />
+		<property name="testOnReturn" value="${durid.testOnReturn}" />
+
+		<property name="poolPreparedStatements" value="${durid.poolPreparedStatements}" />
+		<property name="maxPoolPreparedStatementPerConnectionSize"
+			value="${durid.maxPoolPreparedStatementPerConnectionSize}" />
+	</bean> -->
+
+	 <!-- 编写spring 配置文件的配置多数源映射关系 -->
+	<!-- <bean class="com.kd.core.dataSource.DynamicDataSource" id="dynamicDataSource">
+	    <property name="targetDataSources">
+	        <map key-type="java.lang.String">
+	            <entry value-ref="dataSource" key="dataSource"></entry>
+	            <entry value-ref="dataSource_two" key="dataSource_two"></entry>
+	        </map>
+	    </property>
+	    <property name="defaultTargetDataSource" ref="dataSource_two">
+	    </property>
+	</bean>   -->
+
+	<!-- 创建SqlSessionFactory  -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
+		<property name="typeHandlersPackage" value="com.kd.core.typehandler"/>
+	</bean>
+
+	<bean id="configResource" class="com.kd.core.resource.common.ConfigResource">
+		<property name="cs" ref="configServiceImpl"></property>
+	</bean>
+	<bean id="configServiceImpl" class="com.kd.core.service.impl.common.ConfigServiceImpl">
+
+		<property name="dao" ref="configDao"></property>
+	</bean>
+	<bean id="configDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.common.ConfigDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!--用户日志 -->
+
+	<bean id="userlogResource" class="com.kd.core.resource.system.UserLogResource">
+		<property name="userLogService" ref="userLogServiceImpl"></property>
+	</bean>
+	<bean id="userLogServiceImpl" class="com.kd.core.service.impl.system.UserLogServiceImpl">
+		<property name="dao" ref="userLogDao"></property>
+	</bean>
+	<bean id="userLogDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.system.UserLogDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- 自定义bean -->
+	<bean id="userResource" class="com.kd.core.resource.user.UserResource">
+		<property name="userService" ref="userServiceImpl"></property>
+	</bean>
+
+	<bean id="userServiceImpl" class="com.kd.core.service.impl.user.UserServiceImpl">
+		<property name="dao" ref="userDao"></property>
+	</bean>
+
+	<bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.user.UserDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+
+
+	<!-- 角色 -->
+	<bean id="roleResource" class="com.kd.core.resource.user.RoleResource">
+		<property name="roleService" ref="roleServiceImpl"></property>
+	</bean>
+	<bean id="roleServiceImpl" class="com.kd.core.service.impl.user.RoleServiceImpl">
+		<property name="dao" ref="roleDao"></property>
+	</bean>
+
+	<bean id="roleDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.user.RoleDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- 用户角色关系 -->
+	<bean id="userRolesResource" class="com.kd.core.resource.user.UserRolesResource">
+		<property name="userRolesService" ref="userRolesServiceImpl"></property>
+	</bean>
+	<bean id="userRolesServiceImpl" class="com.kd.core.service.impl.user.UserRolesServiceImpl">
+		<property name="userRolesDao" ref="userRolesDao"></property>
+		<property name="dao" ref="userRolesDao"></property>
+	</bean>
+
+	<bean id="userRolesDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.user.UserRolesDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+
+
+	<!-- 地域 -->
+	<bean id="orgDescResource" class="com.kd.core.resource.common.OrgDescResource">
+		<property name="orgDescServiceImpl" ref="orgDescServiceImpl"></property>
+	</bean>
+	<bean id="orgDescServiceImpl" class="com.kd.core.service.impl.common.OrgDescServiceImpl">
+		<property name="dao" ref="orgDescDao"></property>
+	</bean>
+
+	<bean id="orgDescDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.common.OrgDescDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+
+	<!-- 基础数据 -->
+	<bean id="commonResource" class="com.kd.core.resource.common.CommonResource">
+		<property name="baseDataServiceImpl" ref="baseDataServiceImpl"></property>
+
+	</bean>
+	<bean id="baseDataServiceImpl" class="com.kd.core.service.impl.common.BaseDataServiceImpl">
+		<property name="dao" ref="baseDataDao"></property>
+		<property name="baseDataDao" ref="baseDataDao"></property>
+	</bean>
+
+	<bean id="baseDataDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.common.BaseDataDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- 按钮组件 -->
+	<bean id="buttonResource" class="com.kd.core.resource.component.ButtonResource">
+		<property name="buttonServiceImpl" ref="buttonServiceImpl"></property>
+
+	</bean>
+	<bean id="userButton" class="com.kd.core.resource.menu.ButtonResource">
+		<property name="buttonService" ref="buttonServiceImpl"></property>
+	</bean>
+	<bean id="buttonServiceImpl" class="com.kd.core.service.impl.component.ButtonServiceImpl">
+		<property name="dao" ref="buttonDao"></property>
+	</bean>
+
+	<bean id="buttonDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.component.ButtonDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- 菜单组件 -->
+	<bean id="menuResource" class="com.kd.core.resource.component.MenuResource">
+		<property name="menuService" ref="menuServiceImpl"></property>
+	</bean>
+	<bean id="userMenuResource" class="com.kd.core.resource.menu.MenuResource">
+		<property name="menuService" ref="menuServiceImpl"></property>
+	</bean>
+
+	<bean id="menuServiceImpl" class="com.kd.core.service.impl.component.MenuServiceImpl">
+		<property name="dao" ref="menuDao"></property>
+	</bean>
+
+	<bean id="menuDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.component.MenuDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- 机关 -->
+	<bean id="organizationResource" class="com.kd.core.resource.organization.OrganizationResource" >
+		<property name="organizationService" ref="organizationServiceImpl" ></property>
+	</bean>
+	<bean id="organizationServiceImpl" class="com.kd.core.service.impl.organization.OrganizationServiceImpl">
+		<property name="dao" ref="organizationDao"  ></property>
+	</bean>
+	<bean id="organizationDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.organization.OrganizationDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- 部门 -->
+	<bean id="departmentResource" class="com.kd.core.resource.organization.DepartmentResource" >
+		<property name="departmentService" ref="departmentServiceImpl" ></property>
+	</bean>
+	<bean id="departmentServiceImpl" class="com.kd.core.service.impl.organization.DepartmentServiceImpl">
+		<property name="dao" ref="departmentDao"  ></property>
+	</bean>
+	<bean id="departmentDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.organization.DepartmentDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- 会议室配置 -->
+	<bean id="meetRoomServiceImpl" class="com.kd.core.service.impl.meetRoom.MeetRoomServiceImpl">
+		<property name="dao" ref="meetRoomDao"></property>
+	</bean>
+	<bean id="meetRoomDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.meetRoom.MeetRoomDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	<!-- 会议室屏幕通知栏配置 -->
+	<bean id="meetNoticeServiceImpl" class="com.kd.core.service.impl.meetNotice.MeetNoticeServiceImpl">
+		<property name="dao" ref="meetNoticeDao"></property>
+	</bean>
+	<bean id="meetNoticeDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.meetNotice.MeetNoticeDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+	<!-- 订单配置 -->
+	<bean id="orderDetailServiceImpl" class="com.kd.core.service.impl.orderDetail.OrderDetailServiceImpl">
+		<property name="dao" ref="orderDetailDao"></property>
+	</bean>
+	<bean id="orderDetailDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.orderDetail.OrderDetailDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+		<!-- 系统交易报表 -->
+	<bean id="systemTReportServiceImpl" class="com.kd.core.service.impl.report.SystemTReportServiceImpl">
+		<property name="dao" ref="systemTReportDao"></property>
+	</bean>
+	<bean id="systemTReportDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.report.SystemTReportDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+
+
+	<!-- 通用mappper -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.github.abel533.entity.mapper" />
+	</bean>
+	<!-- 定义entityMapper方便直接使用 -->
+	<bean id="entityMapper" class="com.github.abel533.entity.EntityMapper"
+		scope="prototype">
+		<!-- 使用构造参数引用commonMapper -->
+		<constructor-arg ref="commonMapper" />
+	</bean>
+
+
+	<!-- 事务管理器 -->
+	<bean name="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+
+
+	<!-- 开启事务注解驱动 -->
+	<tx:annotation-driven />
+	<!-- 启用Spring对@AspectJ的支持 <aop:aspectj-autoproxy /> -->
+	<aop:aspectj-autoproxy proxy-target-class="true"/>
+	<!-- 使用annotation定义数据库事务，这样可以在类或方法中直接使用@Transactional注解来声明事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- 事物控制的方法 -->
+	<tx:advice id="userTxAdvice" transaction-manager="transactionManager">
+		<tx:attributes>
+			<tx:method name="delete*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" no-rollback-for="java.lang.RuntimeException" />
+			<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="update*" propagation="REQUIRED" read-only="false"
+				rollback-for="java.lang.Exception" />
+			<tx:method name="find*" propagation="SUPPORTS" />
+			<tx:method name="count*" propagation="SUPPORTS" />
+			<tx:method name="account*" propagation="SUPPORTS" />
+			<tx:method name="save*" propagation="SUPPORTS" />
+			<tx:method name="search*" propagation="SUPPORTS" />
+			<tx:method name="auto*" propagation="REQUIRED"/>
+		</tx:attributes>
+	</tx:advice>
+
+
+
+</beans>  

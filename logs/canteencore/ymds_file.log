@@ -1,0 +1,12 @@
+2017-10-20 15:14:14.901 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:123 -----------终端签到开始-------------
+2017-10-20 15:14:14.928 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:124 -?terminalNo=10991005
+2017-10-20 15:14:14.935 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:129 -?terminalNo=10991005
+2017-10-20 15:14:14.973 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:135 -获取终端成功。。。。。。
+2017-10-20 15:14:14.973 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:137 -。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+2017-10-20 15:14:15.103 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.BaseResource.resultMessage:230 -{"retInfo":[{"person":"","orderDetailList":[],"meetNoticeContent":"","meetRoomID":"0005","meetRoomName":"会议室（三）"}],"retMessage":[{"message":"","code":"XT00000"}]}
+2017-10-20 15:14:44.530 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:123 -----------终端签到开始-------------
+2017-10-20 15:14:44.531 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:124 -?terminalNo=10991005
+2017-10-20 15:14:44.531 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:129 -?terminalNo=10991005
+2017-10-20 15:14:44.540 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:135 -获取终端成功。。。。。。
+2017-10-20 15:14:44.540 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.SMMConfig.queryTerminal:137 -。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。。
+2017-10-20 15:14:44.540 INFO [1501141604@qtp-1410508107-1]com.kd.core.resource.ymhs.BaseResource.resultMessage:230 -{"retInfo":[{"person":"","orderDetailList":[],"meetNoticeContent":"","meetRoomID":"0005","meetRoomName":"会议室（三）"}],"retMessage":[{"message":"","code":"XT00000"}]}

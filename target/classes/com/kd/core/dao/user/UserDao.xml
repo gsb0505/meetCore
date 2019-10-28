@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.user.UserDao">
+     
+	<resultMap type="UserInfo" id="userInfoResult">
+		<result property="orgId" column="org_id" />
+		<result property="depId" column="dep_id" />
+		<result property="userId" column="userid" />
+		<result property="id" column="ID" />
+		<result property="email" column="e_mail" />
+		<result property="phone" column="phone" />
+		<result property="remark" column="remark" />
+		<result property="flag" column="flag" />
+		<result property="userCZ" column="creator" />
+		<result property="createTime" column="create_time" />
+		<result property="auditor" column="auditor" />
+		<result property="auditorName" column="auditorName" />
+		<result property="updateTime" column="update_time" />
+		<result property="errNum" column="errNum" />
+	</resultMap>
+	 
+	
+    
+     <insert id="insert" parameterType="UserInfo">
+		insert into
+
+		user_info(org_id,dep_id,loginPSW,userid,e_mail,phone,remark,flag,creator,create_time,update_time,errNum)
+		values(#{orgId,jdbcType=VARCHAR},#{depId,jdbcType=VARCHAR},#{loginPSW},#{userId,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},1,
+				#{userCZ},now(),now(),0
+
+		)
+	</insert>
+		 
+    
+     <!-- 提交查询 -->
+	   <select id="getPagedList" resultMap="userInfoResult" parameterType="UserInfo">
+
+	select b.id,org_id,dep_id,loginPSW,userid,e_mail,phone,b.remark,flag,errNum,(select t.userid from user_info t where t.userId=b.creator) as creatorName,create_time,
+	(select group_concat(a.role_desc) from user_userroles t,user_roles a where t.role_code=a.role_code and find_in_set(t.userId,b.userId)) as roles,o.name as orgName,d.name as depName
+
+	from user_info b 
+	LEFT JOIN organization o ON b.org_id = o.Id 
+	LEFT JOIN department d ON b.dep_id = d.Id 
+		<where>
+		    	1=1
+		     <if test="userId!=null and userId!='' ">
+		        and  b.userid like concat('%',#{userId},'%')
+		    </if>
+		     <if test="flag!=null and flag!=''">
+		        and  flag=#{flag}
+		    </if>
+		</where>
+		order by b.id desc
+    </select> 
+	<!-- 更新用户 --> 
+	<update id="update" parameterType="UserInfo">
+	    
+		update user_info set
+		loginPSW=#{loginPSW},userid=#{userId},
+		e_mail=#{email},phone=#{phone},remark=#{remark},
+		flag=#{flag},org_id=#{orgId},dep_id=#{depId},
+		update_time=now()
+		where id=#{id}
+    </update>
+    
+    	<!-- 更新用户 --> 
+	<update id="updatePSW" parameterType="UserInfo">
+	    
+		update user_info set loginPSW=#{loginPSW},update_time=now() where userid=#{userId}
+    </update>
+    
+    
+
+    <!-- 更新用户密码错误次数 --> 
+	<update id="updateErr" parameterType="UserInfo">
+		update user_info set
+		errNum=#{errNum},
+		update_time=now()
+		where userid=#{userId}
+    </update>
+ 
+	
+	<select id="getModel" parameterType="UserInfo" resultMap="userInfoResult">
+		select * from user_info
+		<where>
+		    	1=1
+		     <if test="id!=null and id!='' ">
+		         and  id=#{id}
+		    </if>
+		    <if test="userId!=null and userId!=''">
+		        and  userId=#{userId}
+		    </if>
+		 </where>
+		order by id      
+		   
+		 
+	</select>
+	
+	<select id="validUser" parameterType="UserInfo" resultMap="userInfoResult">
+		select * from user_info where userId=#{userId} 
+		<if test="loginPSW!=null and loginPSW!='' ">
+		         and loginPSW =#{loginPSW}
+		</if>
+	</select>
+	<!-- TODO -->
+	<select id="getModelList" parameterType="UserInfo" resultMap="userInfoResult">
+		select a.userId,a.id from user_info a
+	</select>
+	
+	<delete id="delByUserId" parameterType="java.lang.String">
+		delete from user_info where userid=#{userId}
+	</delete>
+
+	<!--通过用户名查找-->
+	<select id="getByUserid" parameterType="UserInfo" resultMap="userInfoResult">
+		select * from user_info
+		<where>
+		  	and  userid=#{userid}
+		</where>
+	</select>
+
+</mapper>

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.system.UserLogDao">
+	<resultMap type="com.kd.core.entity.UserLog" id="userLog">
+		<result property="id" column="id" jdbcType="INTEGER" />
+		<result property="userId" column="userId"  />
+		<result property="menuId" column="menu_Id"  />
+		<result property="result" column="result"  />
+		<result property="userIp" column="user_ip" />
+		<result property="remark" column="remark"/>
+		<result property="operTime" column="oper_time" />
+		<result property="action" column="action"/>
+		<result property="type" column="type" />
+	</resultMap>
+
+	
+
+	<!-- 新增接口账户 -->
+	<insert id="insert" parameterType="com.kd.core.entity.UserLog">
+		insert into
+		user_log(userId,menu_id,result,user_ip,remark,oper_time,action,type)
+		values(#{userId},#{menuId},#{result},#{userIp},#{remark},now(),#{action},#{type})
+	</insert>
+	
+	
+	<!-- 提交查询 -->
+	  <select id="getPagedList" resultMap="userLog" parameterType="com.kd.core.dto.UserLogDto" useCache="true">
+		select * from user_log where 1=1
+		     <if test="userId!=null and userId!=''">
+		        and  userId =#{userId}
+		    </if>
+		    <if test="type!=null and type!=''">
+		        and  type=#{type}
+		    </if>
+		    <if test="enterDateFrom!=null and enterDateFrom!=''">
+		        and  date(oper_time)&gt;=#{enterDateFrom}
+		    </if>
+		    <if test="enterDateTo!=null and enterDateTo!=''">
+		        and  date(oper_time)&lt;=#{enterDateTo}
+		    </if>
+		order by oper_time desc
+    </select>
+	</mapper>
+	
+	
+	
