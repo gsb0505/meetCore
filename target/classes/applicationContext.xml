@@ -93,8 +93,9 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
 		<property name="typeHandlersPackage" value="com.kd.core.typehandler"/>
+		<property name="mapperLocations" value="classpath:com/kd/core/dao/*/*.cml"></property>
 	</bean>
-
+	
 	<bean id="configResource" class="com.kd.core.resource.common.ConfigResource">
 		<property name="cs" ref="configServiceImpl"></property>
 	</bean>
@@ -283,7 +284,23 @@
 		<property name="mapperInterface" value="com.kd.core.dao.report.SystemTReportDao"></property>
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
+	
+	
+	<!-- 商品描述 -->
+	<bean id="goodsInfoResource" class="com.kd.core.resource.goodsInfo.GoodsInfoResource">
+		<property name="goodsInfoService" ref="goodsInfoServiceImpl"></property>
+	</bean> 
 
+	<bean id="goodsInfoServiceImpl" class="com.kd.core.service.impl.goodsInfo.GoodsInfoServiceImpl">
+		<property name="dao" ref="goodsInfoDao"></property>
+	</bean>
+
+	<bean id="goodsInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.goodsInfo.GoodsInfoDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	
 
 	<!-- 通用mappper -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
