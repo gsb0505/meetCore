@@ -39,7 +39,6 @@ import com.kd.core.util.BaseDataUtil;
 import com.kd.core.util.Constants;
 import com.kd.core.util.StringUtil;
 import com.sun.mail.iap.Response;
-import com.sun.tools.corba.se.idl.constExpr.Terminal;
 
 @Path("/SMMConfig")
 public class SMMConfig extends BaseResource {

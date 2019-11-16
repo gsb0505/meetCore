@@ -93,7 +93,7 @@
 		<property name="dataSource" ref="dataSource" />
 		<property name="configLocation" value="classpath:mybatis-config.xml"></property>
 		<property name="typeHandlersPackage" value="com.kd.core.typehandler"/>
-		<property name="mapperLocations" value="classpath:com/kd/core/dao/*/*.cml"></property>
+		<property name="mapperLocations" value="classpath:com/kd/core/dao/*/*.xml"></property>
 	</bean>
 	
 	<bean id="configResource" class="com.kd.core.resource.common.ConfigResource">

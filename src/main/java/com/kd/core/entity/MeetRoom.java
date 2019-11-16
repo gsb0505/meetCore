@@ -14,6 +14,9 @@ import javax.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement(name="meetRoom")
 public class MeetRoom extends BaseEntity{
+	
+	private String photoUrl;
+	
     public String getMeetRoomID() {
 		return meetRoomID;
 	}
@@ -94,6 +97,18 @@ public class MeetRoom extends BaseEntity{
 	}
 	public void setOrderDetailList(List<OrderDetail> orderDetailList) {
 		this.orderDetailList = orderDetailList;
+	}
+	/**
+	 * @return the photoUrl
+	 */
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+	/**
+	 * @param photoUrl the photoUrl to set
+	 */
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
 	}
     
 }
