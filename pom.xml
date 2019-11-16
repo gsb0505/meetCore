@@ -132,7 +132,7 @@
             <version>${spring-security.version}</version>
         </dependency>
 
-        <!-- ï¿½ï¿½ï¿½ï¿½Í°ï¿½ï¿½ï¿½ï¿½ï¿½Ô´ï¿½ï¿½ -->
+        <!-- °¢Àï°Í°ÍÊý¾ÝÔ´°ü -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
@@ -166,7 +166,7 @@
             <artifactId>hessian</artifactId>
             <version>4.0.7</version>
         </dependency>
-        <!-- mysqlï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ -->
+        <!-- mysqlÇý¶¯°ü -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -242,7 +242,7 @@
             <version>2.2.1</version>
         </dependency>
         <!-- quartz end -->
-        <!-- ftpï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jar -->
+        <!-- ftpÏÂÔØÒÀÀµjar -->
         <dependency>
             <groupId>commons-net</groupId>
             <artifactId>commons-net</artifactId>
@@ -303,7 +303,7 @@
             <version>1.6</version>
         </dependency>
 
-        <!-- ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½jar -->
+        <!-- ÓÊ¼þ·¢ËÍÒÀÀµjar -->
         <dependency>
             <groupId>com.sun.mail</groupId>
             <artifactId>dsn</artifactId>
@@ -358,7 +358,7 @@
             <scope>system</scope>
             <systemPath>${basedir}/src/main/webapp/WEB-INF/lib/common.jar</systemPath>
         </dependency>
-        <!-- ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½ï¿½jar end -->
+        <!-- ÓÊ¼þÒÀÀµjar end -->
     </dependencies>
     <build>
         <finalName>meetCore</finalName>
