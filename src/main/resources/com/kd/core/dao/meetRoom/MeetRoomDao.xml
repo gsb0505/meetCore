@@ -34,6 +34,7 @@
     <result column="person" property="person" jdbcType="VARCHAR" />
     <result column="terminalNo" property="terminalNo" jdbcType="VARCHAR" />
     <result column="operator_No" property="creator" jdbcType="VARCHAR" />
+    <result column="photoUrl" property="photoUrl" jdbcType="VARCHAR" />
     <result column="meetNoticeContent" property="meetNoticeContent" jdbcType="VARCHAR" />
 
 <association property="orderDetailList" column="id" select="getMeetRoomList"/>
@@ -82,10 +83,10 @@
   </delete>
   <insert id="insert" parameterType="com.kd.core.entity.MeetRoom" >
     insert into meetroom (create_time, update_time, 
-      meetRoomID, meetRoomName, status, meetRoomType, personID,terminalNo,operator_No)
+      meetRoomID, meetRoomName, status, meetRoomType, personID,terminalNo,operator_No,photoUrl)
     values (now(), now(), 
       #{meetRoomID,jdbcType=VARCHAR}, #{meetRoomName,jdbcType=VARCHAR},#{status,jdbcType=INTEGER},
-      #{meetRoomType,jdbcType=INTEGER}, #{personID,jdbcType=VARCHAR},#{terminalNo,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR})
+      #{meetRoomType,jdbcType=INTEGER}, #{personID,jdbcType=VARCHAR},#{terminalNo,jdbcType=VARCHAR},#{creator,jdbcType=VARCHAR},#{photoUrl,jdbcType=VARCHAR})
   </insert>
   
  

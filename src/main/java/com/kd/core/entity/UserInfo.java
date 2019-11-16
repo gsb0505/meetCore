@@ -32,6 +32,8 @@ public class UserInfo extends BaseEntity{
 	private String orgId;//部门 （因运用新疆框架，字段英文与实际不符）
 	private String depId;//职位（因运用新疆框架，字段英文与实际不符）
 	private String creatorName;//创建人名称
+	private String photoUrl;//员工头像
+	
 	public String getOrgName() {
 		return orgName;
 	}
@@ -117,8 +119,18 @@ public class UserInfo extends BaseEntity{
 	public void setErrNum(String errNum) {
 		this.errNum = errNum;
 	}
-	
-	
+	/**
+	 * @return the photoUrl
+	 */
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+	/**
+	 * @param photoUrl the photoUrl to set
+	 */
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
+	}
 	
 	
 }

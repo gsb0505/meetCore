@@ -17,6 +17,7 @@
 		<result property="auditorName" column="auditorName" />
 		<result property="updateTime" column="update_time" />
 		<result property="errNum" column="errNum" />
+		<result property="photoUrl" column="photoUrl" />
 	</resultMap>
 	 
 	
@@ -24,9 +25,9 @@
      <insert id="insert" parameterType="UserInfo">
 		insert into
 
-		user_info(org_id,dep_id,loginPSW,userid,e_mail,phone,remark,flag,creator,create_time,update_time,errNum)
+		user_info(org_id,dep_id,loginPSW,userid,e_mail,phone,remark,flag,creator,create_time,update_time,errNum,photoUrl)
 		values(#{orgId,jdbcType=VARCHAR},#{depId,jdbcType=VARCHAR},#{loginPSW},#{userId,jdbcType=VARCHAR},#{email,jdbcType=VARCHAR},#{phone,jdbcType=VARCHAR},#{remark,jdbcType=VARCHAR},1,
-				#{userCZ},now(),now(),0
+				#{userCZ},now(),now(),0,#{photoUrl}
 
 		)
 	</insert>

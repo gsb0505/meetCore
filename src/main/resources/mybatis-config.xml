@@ -16,10 +16,5 @@
 		</plugin>
 	</plugins>
 	<mappers>  
-	    <!-- 	   
-	    	<mapper resource="com/kd/core/dao/interface/InteraceConfigDao.xml"/> 
-	    -->
-	    	<!--  -->
-	    	
-	</mappers> 
+	</mappers>
 </configuration>  
