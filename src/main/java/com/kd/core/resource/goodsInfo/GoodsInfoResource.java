@@ -57,19 +57,27 @@ public class GoodsInfoResource {
 		return goodsInfoService.delete(terId);
 	}
 	
-	@GET
+	@POST
 	@Path("getModel")
-	public GoodsInfo getModel(@QueryParam("goodsInfo") String goodsInfo){
-		GoodsInfo ginfo = new Gson().fromJson(goodsInfo.replace("+", " "),GoodsInfo.class);
+	public GoodsInfo getModel(GoodsInfo ginfo){
+		//GoodsInfo ginfo = new Gson().fromJson(goodsInfo.replace("+", " "),GoodsInfo.class);
 		GoodsInfo res = goodsInfoService.getModel(ginfo);
+		return res;
+	}
+
+	@GET
+	@Path("getGinfo/{id}")
+	public GoodsInfo getGinfo(@PathParam("id") String id){
+		//GoodsInfo ginfo = new Gson().fromJson(goodsInfo.replace("+", " "),GoodsInfo.class);
+		GoodsInfo res = goodsInfoService.getModel(id);
 		return res;
 	}
 	
 	
-	@GET
+	@POST
 	@Path("query")
-	public List<GoodsInfo> queryPager (@QueryParam("goodsInfo") String goodsInfo) {
-		GoodsInfo ginfo=new Gson().fromJson(goodsInfo, GoodsInfo.class);
+	public List<GoodsInfo> queryPager (GoodsInfo ginfo) {//@QueryParam("goodsInfo") String goodsInfo
+		//GoodsInfo ginfo=new Gson().fromJson(goodsInfo, GoodsInfo.class);
 		List<GoodsInfo> list = goodsInfoService.getPagedList(ginfo);
 		if(list!=null&&list.size()>0){
 			list.get(0).setPageCount(ginfo.pageCount);

@@ -29,26 +29,22 @@
   </insert>
   
   <update id="update" parameterType="com.kd.core.entity.GoodsInfo" >
-    update meetroom
+    update goods_info
     <set >
-        update_time =NOW(),
-      <if test="meetRoomID != null and meetRoomID !=''" >
-        meetRoomID = #{meetRoomID,jdbcType=VARCHAR},
+      <if test="goodsName != null and goodsName !=''" >
+          goodsName = #{goodsName,jdbcType=VARCHAR},
       </if>
-      <if test="meetRoomName != null and meetRoomName !=''" >
-        meetRoomName = #{meetRoomName,jdbcType=VARCHAR},
+      <if test="storeCode != null and storeCode !=''" >
+          storeCode = #{storeCode,jdbcType=VARCHAR},
       </if>
       <if test="status != null" >
         status = #{status,jdbcType=INTEGER},
       </if>
-      <if test="meetRoomType != null" >
-       meetRoomType = #{meetRoomType,jdbcType=INTEGER},
+      <if test="typeCode != null" >
+          typeCode = #{typeCode,jdbcType=INTEGER},
       </if>
-      <if test="personID != null" >
-        personID = #{personID,jdbcType=INTEGER},
-      </if>
-      <if test="terminalNo != null and terminalNo != ''">
-      	terminalNo = #{terminalNo},
+      <if test="price != null" >
+          price = #{price,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -63,6 +59,18 @@
  	select    <include refid="Base_Column_List" /> from goods_info g
    	<where>
    		1=1
+        <if test="goodsName != null and goodsName !=''" >
+            and goodsName like '%${goodsName}%'
+        </if>
+        <if test="storeCode != null and storeCode !=''" >
+            and storeCode = #{storeCode,jdbcType=VARCHAR}
+        </if>
+        <if test="status != null and status !=''" >
+            and status = #{status,jdbcType=INTEGER}
+        </if>
+        <if test="typeCode != null and typeCode !=''" >
+            and typeCode = #{typeCode,jdbcType=INTEGER}
+        </if>
    	</where>
   </select>
 
