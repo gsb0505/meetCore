@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.component.MenuDao">
+	<resultMap type="MenuDto" id="MenuDtoEntity">
+		<result property="menuId" column="menu_Id" jdbcType="VARCHAR"/>
+		<result property="parentMenuId" column="parent_Menu_Id" jdbcType="VARCHAR" />
+		<result property="menuName" column="menu_Name" jdbcType="VARCHAR" />
+		<result property="menuUrl" column="menu_Url" jdbcType="VARCHAR" />
+		<result property="iconUrl" column="icon_Url" jdbcType="VARCHAR" />
+		<result property="path" column="path" jdbcType="VARCHAR" />
+		<result property="menuRemark" column="menu_Remark" jdbcType="VARCHAR" />
+		<result property="menuSort" column="menu_Sort" jdbcType="VARCHAR" />
+		<result property="btnId" column="btn_id" jdbcType="VARCHAR" />
+		<result property="flag" column="flag" jdbcType="VARCHAR" />
+		<result property="cymenuId" column="cymenu_id" jdbcType="VARCHAR" />
+	</resultMap>
+
+
+	<!-- 基础数据调用查询 -->
+	<select id="getModelList" 
+		resultMap="MenuDtoEntity">
+		select a.* from resource a
+		where  a.USER_AGENT=1 and a.MENU_ID IN 
+		(select MENU_ID from role_resource where user_agent=1 and ROLE_ID=#{roleId})
+	</select>
+	
+	
+	 <!-- manage一级菜单调用查询 -->
+	<!--<select id="queryAllLevel" parameterType="java.lang.String" resultMap="MenuDtoEntity">
+		select a.* from resource a
+		where  a.USER_AGENT=0  and a.MENU_ID IN 
+		(select MENU_ID from role_resource where user_agent=0 and ROLE_ID=#{roleId})
+	</select> -->
+	<select id="queryAllLevel" parameterType="MenuDto" resultMap="MenuDtoEntity">
+<!-- 		select a.*, b.btn_id from resource a,
+								  (select MENU_ID, btn_id from role_resource where user_agent=0 and role_id=#{roleId}) b
+							 where  a.menu_id=b.menu_id  -->
+		select t.menu_id,t.parent_menu_id,t.menu_name,t.menu_url,t.cymenu_id,t.css,t.path,t.status,t.menu_remark,t.menu_sort,t.user_agent,t.btn_id,t.flag					 
+		from (select  a.menu_id,a.parent_menu_id,a.menu_name,a.menu_url,'' as cymenu_id,a.css,a.path,a.status,a.menu_remark,a.menu_sort,a.user_agent,
+		(select btn_id from role_resource t where a.menu_id=t.menu_id and user_agent=0 and role_id=#{roleId}) btn_id,
+		(select count(*) from favoritemenu t where t.menu_id=a.menu_id and t.user_id=#{userId}) as  flag
+		from resource a inner join role_resource rr on a.menu_id=rr.menu_id where rr.role_id=#{roleId} order by a.menu_sort) t 
+		union all
+		select t.menu_id,t.parent_menu_id,t.menu_name,t.menu_url,t.cymenu_id,t.css,t.path,t.status,t.menu_remark,t.menu_sort,t.user_agent,t.btn_id,t.flag 
+		from (select concat('101000100',b.id) as menu_id,'1010001' as parent_menu_id, a.menu_name,a.menu_url,a.menu_id as cymenu_id,
+		a.css,a.path,a.status,a.menu_remark,a.menu_sort,a.user_agent,(select btn_id from role_resource t where a.menu_id=t.menu_id and user_agent=0
+		and role_id=#{roleId}) btn_id,'2' as flag
+		from resource a,favoritemenu b
+		where a.menu_id=b.menu_id  and b.user_id=#{userId} order by a.menu_sort) t 
+							 
+	</select>
+	
+	<!-- 新增常用功能 -->
+	<insert id="insert" parameterType="MenuDto">
+	insert into favoritemenu (user_id,menu_id,create_time) values (#{userId},#{menuId},sysdate())	
+	</insert>
+	
+	<!-- 新增常用功能 -->
+	<delete id="delete" parameterType="MenuDto">
+	delete from favoritemenu where user_id=#{userId} and menu_id=#{menuId}
+	</delete>	
+	
+</mapper>
+

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.system.CustomerConfigDao">
+
+	<resultMap type="com.kd.core.entity.CustomerConfig" id="customerConfigResult">
+		<result property="id" column="id" />
+		<result property="userName" column="user_name" />
+		<result property="email" column="email" />
+		<result property="type" column="type" />
+		<result property="typeName" column="type_name" />
+	</resultMap>
+
+	<update id="update" parameterType="com.kd.core.entity.CustomerConfig">
+		update system_customerconfig set user_name=#{userName},email=#{email},type=#{type},update_time=now() where id=#{id}
+	</update>
+
+	<select id="getPagedList" parameterType="com.kd.core.entity.CustomerConfig"
+		resultMap="customerConfigResult">
+		select sc.id,sc.user_name,sc.email,group_concat(sb.name) as type_name
+		from system_customerconfig sc ,system_basedata sb
+		<where>
+			1=1 and (FIND_IN_SET(sb.code,sc.type) and sb.type_id=12)
+			<if test="userName!=null and userName!=''">
+				and sc.user_name like "%"#{userName}"%"
+			</if>
+			<if test="email!=null and email!=''">
+				and sc.email like CONCAT('%', #{email},'%')
+			</if>
+			<if test="type != null and type != ''">
+				and type like CONCAT('%', #{type},'%')
+			</if>
+		</where>
+		group by sc.id
+	</select>
+
+	<delete id="delete" parameterType="com.kd.core.entity.CustomerConfig">
+		delete from system_customerconfig where id=#{id}
+	</delete>
+	
+	<select id="getModel" resultMap="customerConfigResult" parameterType="String">
+		 select sc.*,group_concat(sb.name) as type_name from system_customerconfig sc ,system_basedata sb
+		 where sc.id = #{id} and (FIND_IN_SET(sb.code,sc.type) and sb.type_id=12)
+	</select>
+
+	<insert id="insert" parameterType="com.kd.core.entity.CustomerConfig">
+	    insert into
+		system_customerconfig(user_name,email,type,create_time)
+		values(#{userName},#{email},#{type,jdbcType=VARCHAR},now())
+	</insert>
+
+	<select id="getModelList" parameterType="com.kd.core.entity.CustomerConfig" resultMap="customerConfigResult">
+		select * from system_customerconfig where 1=1 
+		<if test="type != null and type != ''">
+			AND type like CONCAT('%',#{type},'%')
+		</if>
+	</select>
+	
+	
+</mapper>

@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.user.RoleDao">
+
+
+
+    
+	<resultMap type="Role" id="roleMap">
+		<result property="roleDesc" column="role_desc" jdbcType= "VARCHAR"/>
+		<result property="remark" column="remark" jdbcType= "VARCHAR"/>
+		<result property="id" column="ID" jdbcType= "INTEGER"/>
+		<result property="roleCode" column="role_code" jdbcType= "VARCHAR"/>
+	</resultMap>
+	 
+	 
+	  <resultMap id= "BaseResultMap" type= "com.kd.core.entity.Menu" >
+    <id column ="MENU_ID" property="id" jdbcType= "VARCHAR" />
+    <result column ="PARENT_MENU_ID" property="pId" jdbcType= "VARCHAR" />
+    <result column ="MENU_NAME" property="name" jdbcType= "VARCHAR" />
+    <result column ="role_id" property="roleId" jdbcType= "VARCHAR" />
+     <result column ="BTN_ID" property="btnId" jdbcType= "VARCHAR" />
+     <result column ="BTN_ID" property="btnId" jdbcType= "VARCHAR" />
+     <result column ="BTN_ID" property="btnId" jdbcType= "VARCHAR" />
+    
+  </resultMap>
+  
+	 <insert id="insert" parameterType="Role">
+		insert into
+		user_roles(role_desc,remark,creator,create_time,role_code,update_time)
+		values(#{roleDesc},#{remark},#{creator,jdbcType=VARCHAR},now(),#{roleCode},now()
+		)
+    </insert>
+    <!-- 提交查询 -->
+	  <select id="getPagedList" resultMap = "roleMap" parameterType="Role">
+		select * from user_roles
+		<where>
+		    	1=1
+		     <if test="roleDesc!=null and roleDesc!=''">
+		        and  role_desc like CONCAT('%',#{roleDesc},'%')
+		    </if>
+		    <if test="roleCode!=null and roleCode!=''">
+		        and  role_code =#{roleCode}
+		    </if>
+		</where>
+		order by id 
+    </select>
+    
+    
+    <!-- 提交查询 -->
+	  <select id="getModelList" resultMap = "roleMap" parameterType="Role">
+		select * from user_roles
+		<where>
+		    	1=1
+		     <if test="roleDesc!=null and roleDesc!=''">
+		        and  role_desc like CONCAT('%',#{roleDesc},'%')
+		    </if>
+		    <if test="roleCode!=null and roleCode!=''">
+		        and  role_code =#{roleCode}
+		    </if>
+		</where>
+		order by id 
+    </select>
+    
+    
+    <!-- 提交查询 -->
+	  <select id="getModel" resultMap = "roleMap" parameterType="Role">
+		select * from user_roles
+		   <where>
+			1=1
+		<choose>
+		<when test="id != null and id != ''">
+		and id = #{id}
+		</when>
+		<when test="roleDesc!=null and roleDesc!='' and roleCode!=null and roleCode!=''">
+		and  role_desc =#{roleDesc} or  role_code =#{roleCode}
+		</when>
+		<when test="roleDesc!=null and roleDesc!=''">
+		and  role_desc=#{roleDesc}
+		</when>
+		<when test="roleCode!=null and roleCode!=''">
+		and   role_code =#{roleCode}
+		</when>
+		
+		</choose>
+		</where>
+
+		order by id 
+    </select>
+	 <!-- 更新用户 --> 
+	<!-- <update id="updateRole" parameterType="Role">
+	    
+		update user_roles set
+		role_desc=#{roleDesc},remark=#{remark},
+		auditor=#{auditor},update_time=now()
+		where id=#{id}
+    </update> -->
+
+	 
+	 <update id="logOffUser" parameterType="java.lang.Integer">
+		update user_info set flag=2,update_time=now()
+		where id=#{id}
+    </update>
+    
+    <update id="update" parameterType="Role">
+		update user_roles set remark=#{remark},ROLE_CODE=#{roleCode},ROLE_DESC=#{roleDesc},update_time=now()
+		where id=#{id}
+    </update>
+
+ 
+  <!-- 根据 roleid 查询所有分类信息 -->
+ <select id= "findAllMenuByRoleID" resultMap ="BaseResultMap" parameterType="java.util.Map">
+ 			<if test="roleId != 'null' ">
+ 				<if test="typeId == 0 ">
+			    select res.MENU_ID,res.PARENT_MENU_ID,res.MENU_NAME,rs.BTN_ID    from role_resource rs,resource res,user_roles ur  where 1=1 
+	     		and rs.ROLE_ID = ur.id and rs.MENU_ID = res.MENU_ID 
+		        and rs.ROLE_ID = #{roleId}
+		         and res.user_agent = #{typeId}
+		         </if>
+		    </if>
+ 
+ 			<if test="roleId != 'null'">
+ 				<if test="typeId == 1 ">
+				    select res.MENU_ID,res.PARENT_MENU_ID,res.MENU_NAME,rs.BTN_ID    from role_resource rs,resource res,agent_role  ur  where 1=1 
+		     		and rs.ROLE_ID = ur.id and rs.MENU_ID = res.MENU_ID 
+			        and rs.ROLE_ID = #{roleId}
+			        and res.user_agent = #{typeId}
+		          </if>
+		    </if>
+		   
+  </select>
+  <!--  查询所有分类信息-角色权限 -->
+  <select id= "findAllMenu" resultType="com.kd.core.entity.Menu" parameterType="java.util.Map">
+<!--     select  res.MENU_ID as MENU_ID,res.PARENT_MENU_ID as PARENT_MENU_ID,res.MENU_NAME as MENU_NAME,'' as BTN_ID from resource res where 1=1
+   		 <if test="typeId != 'null'">
+		         and   res.user_agent = #{typeId}
+		    </if>
+   UNION ALL select CONCAT(rb.BTN_ID,MENU_ID) as MENU_ID,rb.MENU_ID as PARENT_MENU_ID,btn.BTN_TEXT as MENU_NAME,rb.BTN_ID as BTN_ID from resource_button rb,button btn where 1=1 and btn.BTN_ID = rb.BTN_ID
+    <if test="typeId != 'null'">
+		         and   rb.user_agent = #{typeId}
+		    </if> -->
+		select menu_id as id,parent_menu_id as pId,menu_name as name,btn_id as btnId,'true' as open,
+	    (case when ida is not null then 'true' else 'false' end )checked,isbtn
+	    from (select res.menu_id as menu_id,res.parent_menu_id as
+		parent_menu_id,res.menu_name as menu_name,res.menu_id as btn_id,
+		(select id from role_resource t where t.menu_id=res.menu_id and role_id=#{roleId} and t.user_agent = #{typeId} and t.STATUS=1)
+		as ida,'0' as isbtn from resource res where 1=1 and  res.STATUS=1
+		   	<if test="typeId != 'null'">
+		         and   res.user_agent = #{typeId}
+		    </if>
+		union all
+		select menu_id, parent_menu_id,(select btn_text from button where
+		btn_id=t.btn_id) as menu_name, btn_id as btnId,ida,'1' as isbtn
+		from (select concat(rb.btn_id,menu_id) as menu_id, rb.menu_id as
+		parent_menu_id,rb.btn_id,
+		(select id from role_resource t where t.menu_id=rb.menu_id and role_id=#{roleId} and
+		locate(rb.btn_id,t.btn_id)>0 and t.user_agent = #{typeId} and t.STATUS=1) as ida 
+		from resource_button rb where 1=1 and rb.STATUS=1
+   			 <if test="typeId != 'null'">
+		         and rb.user_agent = #{typeId}
+		    </if>		
+		) t) a	order by menu_id  
+  </select>
+  <select id="countByRoleCode" parameterType = "String" resultType="Integer">
+  	select count(uu.id)  from user_userroles uu ,user_roles ur   where 1=1
+  				and ur.role_code = uu.ROLE_CODE
+		        and ur.ROLE_CODE = #{code}
+  </select>
+  <!-- 删除 -角色权限 -->
+  <delete id="deleteMenu"  parameterType = "String">
+  	delete from role_resource where role_id = #{roleId} and user_agent = #{typeId}
+  </delete>
+  <!-- 新增-角色权限 -->
+  <insert id="addOrUpdateMenu" parameterType = "com.kd.core.entity.Menu">
+  	insert into role_resource(role_id,menu_id,user_agent,btn_id) values(#{roleId},#{id},#{typeId},#{btnId}) 
+  </insert>
+  <delete id="delete" parameterType = "java.lang.String">
+  	delete from user_roles where id = #{id}
+  </delete>
+	
+</mapper>

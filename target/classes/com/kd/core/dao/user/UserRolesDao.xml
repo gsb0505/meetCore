@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.user.UserRolesDao">
+    <resultMap type="UserInfo" id="userInfoResult">
+        <result property="id" column="ID"/>
+        <result property="roleDesc" column="role_desc"/>
+        <result property="remark" column="remark"/>
+        <result property="roleCode" column="role_code"/>
+        <result property="creator" column="creator"/>
+        <result property="createTime" column="create_time"/>
+        <result property="auditor" column="auditor"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+
+    <select id="getPagedList" resultType="UserRolesDto" parameterType="UserRolesDto">
+        select a.userid,GROUP_CONCAT(b.ROLE_CODE) roleCode,GROUP_CONCAT(b.ROLE_DESC) roleDesc from user_info
+        a LEFT JOIN (user_roles b,user_userroles c) on (a.userid=c.userid and b.role_code=c.role_code)
+        <where>
+            1=1
+            <if test="userId!=null and userId!=''">
+                and a.userId LIKE "%"#{userId}"%"
+            </if>
+            <if test="roleCode!=null and roleCode!=''">
+                and b.role_code = #{roleCode}
+            </if>
+            group by a.userid
+            order by a.userid
+        </where>
+
+    </select>
+
+    <select id="getModel" resultType="UserRolesDto" parameterType="UserRolesDto">
+        select a.userid,GROUP_CONCAT(b.ROLE_CODE) roleCode,GROUP_CONCAT(b.ROLE_DESC) roleDesc from user_info
+        a LEFT JOIN (user_roles b,user_userroles c) on (a.userid=c.userid and b.role_code=c.role_code)
+        <where>
+            1=1
+            <if test="userId!=null and userId!=''">
+                and a.userId=#{userId}
+            </if>
+            group by a.userid
+            order by a.userid
+        </where>
+
+    </select>
+    <delete id="delete" parameterType="java.lang.String">
+	     delete from user_userroles
+	     where userId=#{userId}
+	     
+	 </delete>
+    <insert id="addUserRoles" parameterType="com.kd.core.entity.UserRoles">
+	    insert into user_userroles(userId,role_code,create_time,creator,update_time)
+	    values(#{userId},#{roleCode},now(),#{creator},now())
+	</insert>
+
+    <select id="getUserRolesList" resultType="UserRolesDto" parameterType="UserRolesDto">
+        select ur.id , ui.userid as userId,uur.role_code as roleCode,ur.ROLE_DESC as roleDesc
+        from user_info ui ,user_userroles uur,user_roles ur where uur.userId = ui.userid and ur.ROLE_CODE =
+        uur.role_code
+        <if test="null != userId and userId !='' ">
+            and ui.userid = #{userId}
+        </if>
+    </select>
+
+
+</mapper>

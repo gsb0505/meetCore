@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kd.core.dao.organization.DepartmentDao">
+  <resultMap id="BaseResultMap" type="com.kd.core.entity.Department">
+    <id column="Id" jdbcType="INTEGER" property="id" />
+    <result column="department_no" jdbcType="VARCHAR" property="departmentNo" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="remark" jdbcType="VARCHAR" property="remark" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    Id, department_no, name, remark
+  </sql>
+  <select id="getPagedList" resultMap="BaseResultMap" parameterType="com.kd.core.entity.Department">
+	select 
+		<include refid="Base_Column_List" />
+    from department 
+		<where>
+		    	1=1
+		    	<if test="departmentNo != null and departmentNo !=''">
+			       and department_no like "%"#{departmentNo}"%"
+			     </if>
+			     <if test="name != null and name !=''">
+			       and name like "%"#{name}"%"
+			     </if>
+		</where>
+		order by id desc
+    </select> 
+     <select id="getModelList" resultMap="BaseResultMap" parameterType="com.kd.core.entity.Department">
+	select 
+		<include refid="Base_Column_List" />
+    from department 
+		<where>
+		    	1=1
+		    	<if test="departmentNo != null and departmentNo !=''">
+			       and department_no like "%"#{departmentNo}"%"
+			     </if>
+			     <if test="name != null and name !=''">
+			       and name like "%"#{name}"%"
+			     </if>
+		</where>
+		order by id desc
+    </select> 
+  <!-- <select id="getModel" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from department
+    where Id = #{id,jdbcType=INTEGER}
+  </select> -->
+  <select id="getModel" parameterType="com.kd.core.entity.Department" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from department
+    where
+     <choose>
+    	<when test="creator != null and creator !='' and creator=='department_no'">
+    		department_no = #{departmentNo}
+    	</when>
+    	<when test="creator != null and creator !='' and creator=='name'">
+    		`name` = #{name}
+    	</when>    	
+    	<otherwise>Id = #{id,jdbcType=INTEGER}</otherwise>
+    </choose>
+  </select>
+  <select id="findDepartsByOrg" parameterType="java.lang.String" resultMap="BaseResultMap">
+  	select d.*
+  	from org_department odj inner join department d  on odj.department_id=d.id
+  	where org_id = #{orgId}
+  </select>
+  <delete id="delete" parameterType="java.lang.Integer">
+    delete from department
+    where Id = #{id,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.kd.core.entity.Department">
+    insert into department (Id, department_no, name, 
+      remark)
+    values (#{id,jdbcType=INTEGER}, #{departmentNo,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.kd.core.entity.Department">
+    insert into department
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        Id,
+      </if>
+      <if test="departmentNo != null">
+        department_no,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="remark != null">
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="departmentNo != null">
+        #{departmentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kd.core.entity.Department">
+    update department
+    <set>
+      <if test="departmentNo != null">
+        department_no = #{departmentNo,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null">
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="update" parameterType="com.kd.core.entity.Department">
+    update department
+    set department_no = #{departmentNo,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      remark = #{remark,jdbcType=VARCHAR}
+    where Id = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
