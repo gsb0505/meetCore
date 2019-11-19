@@ -24,7 +24,6 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	//单价 以分为单位
 	private Double price;
 	
-	
 	private Integer orderNum;
 	
 	//剩余数量
@@ -32,6 +31,9 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	
 	//状态：1上架 2 下架
 	private String status;
+	
+	//商家头像地址
+	private String photoUrl;
 
 	/**
 	 * @return the id
@@ -143,6 +145,14 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
 	}
 	
 }
