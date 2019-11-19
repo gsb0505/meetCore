@@ -22,13 +22,13 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	private String typeCode;
 	
 	//单价 以分为单位
-	private int price;
+	private Double price;
 	
 	
-	private int orderNum;
+	private Integer orderNum;
 	
 	//剩余数量
-	private int count;
+	private Integer count;
 	
 	//状态：1上架 2 下架
 	private String status;
@@ -92,42 +92,42 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	/**
 	 * @return the price
 	 */
-	public int getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(int price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
 	/**
 	 * @return the orderNum
 	 */
-	public int getOrderNum() {
+	public Integer getOrderNum() {
 		return orderNum;
 	}
 
 	/**
 	 * @param orderNum the orderNum to set
 	 */
-	public void setOrderNum(int orderNum) {
+	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
 	}
 
 	/**
 	 * @return the count
 	 */
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
 
 	/**
 	 * @param count the count to set
 	 */
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 

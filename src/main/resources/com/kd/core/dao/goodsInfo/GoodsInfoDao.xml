@@ -43,7 +43,7 @@
       <if test="typeCode != null" >
           typeCode = #{typeCode,jdbcType=INTEGER},
       </if>
-      <if test="price != null" >
+      <if test="price != null and price != 0" >
           price = #{price,jdbcType=INTEGER},
       </if>
     </set>
