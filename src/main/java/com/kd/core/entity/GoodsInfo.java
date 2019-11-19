@@ -22,8 +22,7 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	private String typeCode;
 	
 	//单价 以分为单位
-	private int price;
-	
+	private Double price;
 	
 	private int orderNum;
 	
@@ -32,6 +31,9 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	
 	//状态：1上架 2 下架
 	private String status;
+	
+	//商家头像地址
+	private String photoUrl;
 
 	/**
 	 * @return the id
@@ -89,17 +91,11 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 		this.typeCode = typeCode;
 	}
 
-	/**
-	 * @return the price
-	 */
-	public int getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
-	/**
-	 * @param price the price to set
-	 */
-	public void setPrice(int price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
@@ -143,6 +139,14 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
 	}
 	
 }

@@ -1,0 +1,8 @@
+/.settings
+/logs
+/target
+/.classpath
+/.project
+/cloud-core.iml
+/hs_err_pid7440.log
+/meetCore.iml

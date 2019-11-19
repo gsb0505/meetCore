@@ -1,3 +1,4 @@
+
 package com.kd.core.dao.goodsInfo;
 
 import com.kd.core.base.BaseDao;
