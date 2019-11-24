@@ -4,9 +4,12 @@ package com.kd.core.service.impl.orderDetail;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.kd.core.base.BaseServiceImpl;
+import com.kd.core.dao.goodsDetail.GoodsDetailDao;
 import com.kd.core.dao.orderDetail.OrderDetailDao;
+import com.kd.core.entity.GoodsDetail;
 import com.kd.core.entity.OrderDetail;
 import com.kd.core.resource.common.TraceNumberService;
 import com.kd.core.service.orderDetail.OrderDetailService;
@@ -16,6 +19,9 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
 	
 	@Autowired
 	private OrderDetailDao dao;
+	
+	@Autowired
+	private GoodsDetailDao gdDetailDao;
 	
 	/**
 	 * @方法描述：生成流水号
@@ -91,10 +97,18 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
 	}
 
 
-	@Override
-	public boolean addOrder(OrderDetail orderDetail) {
+	@Transactional
+	public boolean addOrder(OrderDetail orderDetail,GoodsDetail goodsDetail) {
 		//首先要验证一下这个手机号码在正式的用户当中是否已经存在
-			return dao.insert(orderDetail)==1?true:false;
+		//先商品入库
+		int gcount=gdDetailDao.insert(goodsDetail);
+		if(gcount>0){
+			 int ocount=dao.insert(orderDetail);
+			 if(ocount>0){
+				 return true;
+			 }
+		}
+		return false;
 	}
 
 	/**

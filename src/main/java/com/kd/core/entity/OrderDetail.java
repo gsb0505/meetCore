@@ -13,8 +13,27 @@ public class OrderDetail extends BaseEntity implements Serializable {
      *
      */
     private static  long serialVersionUID = 8480363736721539061L;
+    
+    
+    private String email;
+    
+    
 
-    public static long getSerialversionuid() {
+    /**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 

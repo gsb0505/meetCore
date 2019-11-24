@@ -270,6 +270,7 @@
 	<!-- 订单配置 -->
 	<bean id="orderDetailServiceImpl" class="com.kd.core.service.impl.orderDetail.OrderDetailServiceImpl">
 		<property name="dao" ref="orderDetailDao"></property>
+		<property name="gdDetailDao" ref="GoodsDetailDao"></property>
 	</bean>
 	<bean id="orderDetailDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.kd.core.dao.orderDetail.OrderDetailDao"></property>
@@ -297,6 +298,20 @@
 
 	<bean id="goodsInfoDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.kd.core.dao.goodsInfo.GoodsInfoDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	<!-- 会议商品详情-->
+	<bean id="goodsDetailResource" class="com.kd.core.resource.goodsDetail.GoodsDetailResource">
+		<property name="goodsDetailService" ref="goodsDetailServiceImpl"></property>
+	</bean> 
+
+	<bean id="goodsDetailServiceImpl" class="com.kd.core.service.impl.goodsDetail.GoodsDetailServiceImpl">
+		<property name="dao" ref="goodsDetailDao"></property>
+	</bean>
+
+	<bean id="goodsDetailDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.goodsDetail.GoodsDetailDao"></property>
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
 	

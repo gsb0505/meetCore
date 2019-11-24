@@ -9,17 +9,18 @@ import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import com.kd.core.entity.GoodsDetail;
 import com.kd.core.entity.GoodsInfo;
 
-public class testGoodInfo {
+public class testGoodDetail {
 	
-	private static String serverUri = "http://localhost:8082/meetCore/goodsInfo";
+	private static String serverUri = "http://localhost:8082/meetCore/goodsDetail";
 
 	public static void main(String[] args) {
 		
 		try {
 			
-			add();
+			get();
 			
 			//update();
 			
@@ -32,21 +33,24 @@ public class testGoodInfo {
 	public static void add(){
 		
 		Client client = ClientBuilder.newClient();
-		
-		GoodsInfo goodsInfo=new GoodsInfo();
-		goodsInfo.setGoodsName("美食咖啡");
-		goodsInfo.setStoreCode("coffee");
-		goodsInfo.setTypeCode("6450");
-		goodsInfo.setPrice(20.0);
-		goodsInfo.setOrderNum(100);
-		goodsInfo.setCount(50);
-		goodsInfo.setStatus("1");
-		
+		GoodsDetail goodsDetail=new GoodsDetail();
+		goodsDetail.setId("1231231234");
+		goodsDetail.setGoodsName("asdada");
+		goodsDetail.setAmount(100);
 		WebTarget target = client.target(serverUri + "/add");
 		Response res = target.request().post(
-				Entity.entity(goodsInfo, MediaType.APPLICATION_XML));
+				Entity.entity(goodsDetail, MediaType.APPLICATION_XML));
 		String value = res.readEntity(String.class);
 		
 		System.out.println(value);
 	} 
+	
+	
+	public static void get(){
+		Client client = ClientBuilder.newClient();
+		GoodsDetail goodsDetail=new GoodsDetail();
+		goodsDetail.setUserID("admin");
+		WebTarget queryTarget = client.target(serverUri +"/getGoodsByGid");
+		Response queryResponse = queryTarget.request().get();
+	}
 }

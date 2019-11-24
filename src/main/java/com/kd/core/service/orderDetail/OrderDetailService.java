@@ -4,6 +4,7 @@ package com.kd.core.service.orderDetail;
 import java.util.List;
 
 import com.kd.core.base.BaseService;
+import com.kd.core.entity.GoodsDetail;
 import com.kd.core.entity.OrderDetail;
 
 public interface OrderDetailService extends BaseService<OrderDetail> {
@@ -66,7 +67,7 @@ public interface OrderDetailService extends BaseService<OrderDetail> {
 	OrderDetail getTCMoney(OrderDetail orderDetail);
 	
 	
-	public boolean addOrder(OrderDetail orderDetail) ;
+	public boolean addOrder(OrderDetail orderDetail,GoodsDetail goodsDetail) ;
 	/**
 	 * 
 	 *@描述：获取待审核的数据
