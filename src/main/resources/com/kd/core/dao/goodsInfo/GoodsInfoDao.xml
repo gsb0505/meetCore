@@ -45,11 +45,13 @@
       <if test="typeCode != null" >
           typeCode = #{typeCode,jdbcType=INTEGER},
       </if>
+
       <if test="price != null" >
           price = #{price,jdbcType=DOUBLE},
       </if>
       <if test="photoUrl != null" >
           price = #{photoUrl,jdbcType=VARCHAR},
+
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

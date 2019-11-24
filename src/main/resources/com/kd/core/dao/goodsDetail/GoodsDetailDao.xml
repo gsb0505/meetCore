@@ -5,6 +5,7 @@
  <resultMap id="GoodsDetailMap" type="com.kd.core.entity.GoodsDetail" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="userid" property="userID" jdbcType="VARCHAR" />
+    <result column="ginfoid" property="ginfoId" jdbcType="BIGINT" />
     <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
     <result column="tradeorderId" property="storeCode" jdbcType="VARCHAR" />
     <result column="amount" property="typeCode" jdbcType="VARCHAR" />
@@ -73,6 +74,7 @@
    	</where>
   </select>
   
+
   <select id="getGoodsByGid" resultType="java.lang.Integer" parameterType="com.kd.core.entity.GoodsDetail">
  	select count(*) from goods_detail 
  	<where>
@@ -80,4 +82,5 @@
    	</where>
   </select>
   
+
 </mapper>

@@ -77,4 +77,5 @@ public class GoodsDetailResource {
 		gd.setUserID("admin");
 		return goodsDetailService.getGoodsByGid(gd);
 	}
+
 }

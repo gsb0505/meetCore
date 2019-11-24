@@ -15,6 +15,8 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	private String id;
 	//商品编号
 	private String ginfoId; 
+
+
 	//商品名称
 	private String goodsName;
 	//会议id
@@ -36,7 +38,7 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	//所在用户
 	private String userID;
 
-	
+
 	/**
 	 * @return the id
 	 */
@@ -206,4 +208,5 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	public void setUserID(String userID) {
 		this.userID = userID;
 	}
+
 }

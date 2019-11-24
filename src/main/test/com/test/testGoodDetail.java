@@ -21,7 +21,8 @@ public class testGoodDetail {
 		try {
 			
 			get();
-			
+			add();
+
 			//update();
 			
 			//getModel();
@@ -44,6 +45,7 @@ public class testGoodDetail {
 		
 		System.out.println(value);
 	} 
+<<<<<<< HEAD
 	
 	
 	public static void get(){
@@ -53,4 +55,6 @@ public class testGoodDetail {
 		WebTarget queryTarget = client.target(serverUri +"/getGoodsByGid");
 		Response queryResponse = queryTarget.request().get();
 	}
+=======
+>>>>>>> c5b5b376004d312a27c2751b0425a7313ed6d4eb
 }

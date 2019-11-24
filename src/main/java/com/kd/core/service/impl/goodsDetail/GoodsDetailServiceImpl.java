@@ -7,9 +7,11 @@ import com.kd.core.service.goodsDetail.GoodsDetailService;
 
 public class GoodsDetailServiceImpl extends BaseServiceImpl<GoodsDetail, GoodsDetailDao> implements GoodsDetailService{
 
+
 	@Override
 	public int getGoodsByGid(GoodsDetail goodsDetail) {
 		return dao.getGoodsByGid(goodsDetail);
 	}
+
 
 }
