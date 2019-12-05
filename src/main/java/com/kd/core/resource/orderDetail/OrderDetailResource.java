@@ -118,9 +118,9 @@ public class OrderDetailResource {
 	 */
 	@POST
 	@Path("add")
-	public String addOrder(OrderDetail orderDetail,GoodsDetail goodsDetail) throws Exception{
+	public String addOrder(OrderDetail orderDetail) throws Exception{
 		orderDetail.setGlideNo(orderDetailService.getTraceNumber());
-		return String.valueOf(orderDetailService.addOrder(orderDetail, goodsDetail));
+		return String.valueOf(orderDetailService.addOrder(orderDetail));
 	}
 	
 	/**

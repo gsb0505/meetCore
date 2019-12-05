@@ -9,8 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class GoodsInfo extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -7638820873381398720L;
-	//商品编号
-	private String id;
 	
 	//商品名称
 	private String goodsName;
@@ -34,20 +32,6 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	
 	//商家头像地址
 	private String photoUrl;
-
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	/**
 	 * @return the goodsName

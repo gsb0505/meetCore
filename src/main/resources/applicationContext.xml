@@ -270,7 +270,7 @@
 	<!-- 订单配置 -->
 	<bean id="orderDetailServiceImpl" class="com.kd.core.service.impl.orderDetail.OrderDetailServiceImpl">
 		<property name="dao" ref="orderDetailDao"></property>
-		<property name="gdDetailDao" ref="GoodsDetailDao"></property>
+		<property name="gdDetailDao" ref="goodsDetailDao"></property>
 	</bean>
 	<bean id="orderDetailDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.kd.core.dao.orderDetail.OrderDetailDao"></property>

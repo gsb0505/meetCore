@@ -3,6 +3,7 @@ package com.kd.core.service.impl.orderDetail;
 
 import java.util.List;
 
+import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,11 +19,12 @@ import com.kd.core.util.PropertiesUtil;
 public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDetailDao> implements OrderDetailService {
 	
 	@Autowired
-	private OrderDetailDao dao;
-	
-	@Autowired
 	private GoodsDetailDao gdDetailDao;
-	
+
+	public void setGdDetailDao(GoodsDetailDao gdDetailDao) {
+		this.gdDetailDao = gdDetailDao;
+	}
+
 	/**
 	 * @方法描述：生成流水号
 	 * @创建时间：20151211
@@ -98,10 +100,16 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
 
 
 	@Transactional
-	public boolean addOrder(OrderDetail orderDetail,GoodsDetail goodsDetail) {
+	public boolean addOrder(OrderDetail orderDetail) {
 		//首先要验证一下这个手机号码在正式的用户当中是否已经存在
 		//先商品入库
-		int gcount=gdDetailDao.insert(goodsDetail);
+		int gcount=0;
+		if(orderDetail.getGoodsDetailList() != null ) {
+			for (GoodsDetail goodsDetail :
+					orderDetail.getGoodsDetailList()) {
+				gcount += gdDetailDao.insert(goodsDetail);
+			}
+		}
 		if(gcount>0){
 			 int ocount=dao.insert(orderDetail);
 			 if(ocount>0){
@@ -157,4 +165,5 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
 		}
 		return true;
 	}
+
 }

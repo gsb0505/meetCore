@@ -67,7 +67,7 @@ public interface OrderDetailService extends BaseService<OrderDetail> {
 	OrderDetail getTCMoney(OrderDetail orderDetail);
 	
 	
-	public boolean addOrder(OrderDetail orderDetail,GoodsDetail goodsDetail) ;
+	public boolean addOrder(OrderDetail orderDetail) ;
 	/**
 	 * 
 	 *@描述：获取待审核的数据

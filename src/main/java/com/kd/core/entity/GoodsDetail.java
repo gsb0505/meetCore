@@ -1,5 +1,7 @@
 package com.kd.core.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
@@ -7,12 +9,11 @@ import java.util.Date;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GoodsDetail extends BaseEntity implements Serializable {
 	
 	private static final long serialVersionUID = -3468998946867996533L;
-	
-	//商品明细编号
-	private String id;
+
 	//商品编号
 	private String ginfoId; 
 
@@ -39,19 +40,6 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	private String userID;
 
 
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	/**
 	 * @return the ginfoId

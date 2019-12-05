@@ -1,14 +1,10 @@
 package com.kd.core.resource.goodsInfo;
 
+import java.awt.*;
 import java.util.List;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -76,11 +72,12 @@ public class GoodsInfoResource {
 	
 	@POST
 	@Path("query")
-	public List<GoodsInfo> queryPager (GoodsInfo ginfo) {//@QueryParam("goodsInfo") String goodsInfo
+	//@Consumes(MediaType.APPLICATION_JSON)
+	public List<GoodsInfo> queryPager(GoodsInfo goodsInfo) {//@QueryParam("goodsInfo") String goodsInfo
 		//GoodsInfo ginfo=new Gson().fromJson(goodsInfo, GoodsInfo.class);
-		List<GoodsInfo> list = goodsInfoService.getPagedList(ginfo);
+		List<GoodsInfo> list = goodsInfoService.getPagedList(goodsInfo);
 		if(list!=null&&list.size()>0){
-			list.get(0).setPageCount(ginfo.pageCount);
+			list.get(0).setPageCount(goodsInfo.pageCount);
 		}
 		return list;
 	} 

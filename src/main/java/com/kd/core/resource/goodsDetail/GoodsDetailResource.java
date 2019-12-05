@@ -70,7 +70,7 @@ public class GoodsDetailResource {
 		return list;
 	} 
 	
-	@GET
+	@POST
 	@Path("getGoodsByGid")
 	public int getGoodsByGid(GoodsDetail goodsDetail){
 		GoodsDetail gd=new GoodsDetail();

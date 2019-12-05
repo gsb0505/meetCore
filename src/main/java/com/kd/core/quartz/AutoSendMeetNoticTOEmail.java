@@ -4,10 +4,7 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.List;
 
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.xml.parsers.DocumentBuilder;
@@ -33,7 +30,7 @@ public class AutoSendMeetNoticTOEmail {
 	
 	private Logger logger=LoggerFactory.getLogger(AutoSendMeetNoticTOEmail.class);
 	
-	private static String serverUri = "http://localhost:8082/meetCore/goodsInfo";
+	private static String serverUri = PropertiesUtil.readValue("manage.emil.url");//"http://localhost:8082/meetCore/goodsInfo";
 	
 	private final static String EMAILLOGGERNAME="【邮件通知】";
 	
@@ -66,9 +63,17 @@ public class AutoSendMeetNoticTOEmail {
 					
 					//此处加请求manage代码 下发邮箱
 					Client client = ClientBuilder.newClient();
-					WebTarget target = client.target(serverUri + "/sendEmail");
-					Response res = target.request().post(
-							Entity.entity(orderDetail, MediaType.APPLICATION_XML));
+					Invocation.Builder request = client.target(serverUri + "semail/sendEmail.do").queryParam("meetName",orderDetail.getMeetName())
+							.queryParam("meetRoomName",orderDetail.getMeetRoomName())
+							.queryParam("meetStartTime",orderDetail.getMeetStartTime())
+							.queryParam("e_mail",orderDetail.getEmail()).request();
+					request.header("Content-type", MediaType.APPLICATION_JSON);
+					request.buildGet().submit();
+//							.queryParam("meetName",orderDetail.getMeetName())
+//							.queryParam("meetRoomName",orderDetail.getMeetRoomName())
+//							.queryParam("meetStartTime",orderDetail.getMeetStartTime())
+//							.queryParam("e_mail",orderDetail.getEmail());
+					//Response res = target.request().get();
 					
 					logger.info(EMAILLOGGERNAME+" 下发"+orderDetail.getEmail()+"成功。。。。。。");
 					
