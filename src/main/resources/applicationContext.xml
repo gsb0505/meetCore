@@ -271,6 +271,7 @@
 	<bean id="orderDetailServiceImpl" class="com.kd.core.service.impl.orderDetail.OrderDetailServiceImpl">
 		<property name="dao" ref="orderDetailDao"></property>
 		<property name="gdDetailDao" ref="goodsDetailDao"></property>
+		<property name="goodsInfoDao" ref="goodsInfoDao"></property>
 	</bean>
 	<bean id="orderDetailDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.kd.core.dao.orderDetail.OrderDetailDao"></property>
@@ -360,6 +361,11 @@
 		</tx:attributes>
 	</tx:advice>
 
-
+	<aop:config>
+		<aop:pointcut id="interceptorPointCuts"
+					  expression="execution(* com.kd.core.service.impl.*.*.*(..))" />
+		<aop:advisor advice-ref="userTxAdvice"
+					 pointcut-ref="interceptorPointCuts" />
+	</aop:config>
 
 </beans>  

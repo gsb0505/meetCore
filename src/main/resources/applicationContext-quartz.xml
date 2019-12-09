@@ -13,21 +13,21 @@
     http://www.springframework.org/schema/context/spring-context-4.1.xsd">
         <!-- 创建工作类 start-->
         
-        <!-- 定时处理mq -->
-        <bean id="autoSendMeetNoticTOEmail" class="com.kd.core.quartz.AutoSendMeetNoticTOEmail"/> 
+        <!-- 定时处理mq
+        <bean id="autoSendMeetNoticTOEmail" class="com.kd.core.quartz.AutoSendMeetNoticTOEmail"/> -->
 	 	<!-- end -->   
 		
 		 <!-- 再一次发送 未发送charge的记录   start   -->
-      	<bean id="sendEmail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
-            <property name="targetObject">
-                <ref bean="autoSendMeetNoticTOEmail"/>
-            </property>
-            <property name="targetMethod">
-                <value>autoSendEmail</value>
-            </property>
-        </bean>
+      	<!--<bean id="sendEmail" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">-->
+            <!--<property name="targetObject">-->
+                <!--<ref bean="autoSendMeetNoticTOEmail"/>-->
+            <!--</property>-->
+            <!--<property name="targetMethod">-->
+                <!--<value>autoSendEmail</value>-->
+            <!--</property>-->
+        <!--</bean>-->
         
-        <!-- 定义触发时间 -->
+        <!-- 定义触发时间
         <bean id="autoSendTime" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
             <property name="jobDetail">
                 <ref bean="sendEmail"/>
@@ -35,20 +35,20 @@
             <property name="cronExpression">            
                  <value>*/15 * * * * ?</value>
             </property>
-        </bean> 
+        </bean> -->
         <!-- end -->
         
         
         
         
         <!-- 总管理类 如果将lazy-init='false'那么容器启动就会执行调度程序  -->
-        <bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
-            <property name="triggers">
-                <list>
-                 	<ref bean="autoSendTime"/>
-                </list>
-            </property>
-        </bean>
+        <!--<bean id="startQuertz" lazy-init="false" autowire="no" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">-->
+            <!--<property name="triggers">-->
+                <!--<list>-->
+                 	<!--<ref bean="autoSendTime"/>-->
+                <!--</list>-->
+            <!--</property>-->
+        <!--</bean>-->
 </beans>
     
 

@@ -25,9 +25,9 @@
   </delete>
   
   <insert id="insert" parameterType="com.kd.core.entity.GoodsDetail" >
-  INSERT INTO goods_detail(id,goodsName,tradeorderId,amount,num,price,typeCode,storeCode,create_time,update_time,ginfoid) VALUES
-(#{id,jdbcType=INTEGER},#{goodsName,jdbcType=VARCHAR},#{tradeorderId,jdbcType=INTEGER}, #{amount,jdbcType=INTEGER},#{num,jdbcType=INTEGER},
-      #{price,jdbcType=DOUBLE}, #{typeCode,jdbcType=VARCHAR},#{storeCode,jdbcType=VARCHAR},NOW(),NOW(),#{tradeorderId,jdbcType=INTEGER})
+  INSERT INTO goods_detail(goodsName,tradeorderId,amount,num,price,typeCode,storeCode,create_time,update_time,ginfoid) VALUES
+(#{goodsName,jdbcType=VARCHAR},#{tradeorderId,jdbcType=INTEGER}, #{amount,jdbcType=DOUBLE},#{num,jdbcType=INTEGER},
+      #{price,jdbcType=DOUBLE}, #{typeCode,jdbcType=VARCHAR},#{storeCode,jdbcType=VARCHAR},NOW(),NOW(),#{ginfoId,jdbcType=VARCHAR})
   </insert>
   
   <update id="update" parameterType="com.kd.core.entity.GoodsDetail" >
@@ -55,8 +55,8 @@
       <if test="storeCode != null" >
           storeCode = #{storeCode,jdbcType=VARCHAR},
       </if>
-      <if test="ginfoid != null" >
-          ginfoid = #{ginfoid,jdbcType=INTEGER},
+      <if test="ginfoId != null" >
+          ginfoid = #{ginfoId,jdbcType=INTEGER},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}

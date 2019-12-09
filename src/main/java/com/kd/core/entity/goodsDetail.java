@@ -15,7 +15,7 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	private static final long serialVersionUID = -3468998946867996533L;
 
 	//商品编号
-	private String ginfoId; 
+	private String ginfoId;
 
 
 	//商品名称
@@ -23,9 +23,9 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	//会议id
 	private int tradeorderId;
 	//商品总价
-	private int amount;
+	private Double amount;
 	//购买份数
-	private int num;
+	private Integer num;
 	//单价
 	private Double price;
 	//商品类型
@@ -40,6 +40,21 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	private String userID;
 
 
+	public Double getAmount() {
+		return amount;
+	}
+
+	public void setAmount(Double amount) {
+		this.amount = amount;
+	}
+
+	public Integer getNum() {
+		return num;
+	}
+
+	public void setNum(Integer num) {
+		this.num = num;
+	}
 
 	/**
 	 * @return the ginfoId
@@ -83,36 +98,6 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	 */
 	public void setTradeorderId(int tradeorderId) {
 		this.tradeorderId = tradeorderId;
-	}
-
-	/**
-	 * @return the amount
-	 */
-	public int getAmount() {
-		return amount;
-	}
-
-	/**
-	 * @param amount
-	 *            the amount to set
-	 */
-	public void setAmount(int amount) {
-		this.amount = amount;
-	}
-
-	/**
-	 * @return the num
-	 */
-	public int getNum() {
-		return num;
-	}
-
-	/**
-	 * @param num
-	 *            the num to set
-	 */
-	public void setNum(int num) {
-		this.num = num;
 	}
 
 	public Double getPrice() {
