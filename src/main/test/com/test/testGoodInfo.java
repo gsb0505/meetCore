@@ -37,7 +37,7 @@ public class testGoodInfo {
 		goodsInfo.setGoodsName("美食咖啡");
 		goodsInfo.setStoreCode("coffee");
 		goodsInfo.setTypeCode("6450");
-		goodsInfo.setPrice(20);
+		goodsInfo.setPrice(20.0);
 		goodsInfo.setOrderNum(100);
 		goodsInfo.setCount(50);
 		goodsInfo.setStatus("1");

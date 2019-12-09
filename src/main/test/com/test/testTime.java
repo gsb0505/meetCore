@@ -20,7 +20,6 @@ public class testTime {
 		// TODO Auto-generated method stub
 //		testTFrame();
 		testDesc();
-		
 //		testTime();
 	}
 	

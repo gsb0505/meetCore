@@ -19,7 +19,7 @@
     <result column="phone" property="phone" jdbcType="VARCHAR" />
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="err_code" property="errCode" jdbcType="INTEGER" />
-
+	<result column="e_mail" property="email" jdbcType="VARCHAR" />
   </resultMap>
   
   
@@ -248,6 +248,13 @@ LEFT JOIN user_info u on u.userid=t.creator
 			and DATE_FORMAT(td.meetEndTime, '%H:%i') <![CDATA[ < ]]> DATE_FORMAT(#{meetEndTime}, '%H:%i')
 		</if>
    	</where>
+  </select>
+  
+  <select id="getSendEmailInfo" resultMap="BaseResultMap">
+	select td.meetName,mr.meetRoomName,CONCAT(td.meetDate,' ',td.meetStartTime) AS meetStartTime,u.e_mail,TIMESTAMPDIFF(MINUTE,DATE_FORMAT(now(), '%Y-%m-%d %H:%i'),CONCAT(td.meetDate,' ',td.meetStartTime)) AS remark
+    from tradeorder_detail td 
+    LEFT JOIN meetRoom mr ON mr.id=td.meetRoomID
+    LEFT JOIN user_info u on u.userid=td.creator WHERE to_days(td.meetDate) = to_days(now())
   </select>
   
 </mapper>

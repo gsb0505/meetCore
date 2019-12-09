@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.kd.core.dao.goodsDetail.GoodsDetailDao" >
+
+ <resultMap id="GoodsDetailMap" type="com.kd.core.entity.GoodsDetail" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="userid" property="userID" jdbcType="VARCHAR" />
+    <result column="ginfoid" property="ginfoId" jdbcType="BIGINT" />
+    <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+    <result column="tradeorderId" property="storeCode" jdbcType="VARCHAR" />
+    <result column="amount" property="typeCode" jdbcType="VARCHAR" />
+    <result column="num" property="price" jdbcType="DOUBLE" />
+    <result column="price" property="orderNum" jdbcType="INTEGER" />
+    <result column="typeCode" property="count" jdbcType="INTEGER" />
+    <result column="storeCode" property="status" jdbcType="VARCHAR" />
+  </resultMap>
+  
+  <sql id="Base_Column_List" >
+   id,goodsName,tradeorderId,amount,num,price,typeCode,storeCode,create_time,update_time,ginfoid
+  </sql>
+  
+  <delete id="delete" parameterType="java.lang.String" >
+    delete from goods_detail
+    where id = #{id,jdbcType=Integer}
+  </delete>
+  
+  <insert id="insert" parameterType="com.kd.core.entity.GoodsDetail" >
+  INSERT INTO goods_detail(goodsName,tradeorderId,amount,num,price,typeCode,storeCode,create_time,update_time,ginfoid) VALUES
+(#{goodsName,jdbcType=VARCHAR},#{tradeorderId,jdbcType=INTEGER}, #{amount,jdbcType=DOUBLE},#{num,jdbcType=INTEGER},
+      #{price,jdbcType=DOUBLE}, #{typeCode,jdbcType=VARCHAR},#{storeCode,jdbcType=VARCHAR},NOW(),NOW(),#{ginfoId,jdbcType=VARCHAR})
+  </insert>
+  
+  <update id="update" parameterType="com.kd.core.entity.GoodsDetail" >
+    update goods_detail
+    <set >
+      <if test="goodsName != null and goodsName !=''" >
+          goodsName = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="tradeorderId != null and tradeorderId !=''" >
+          tradeorderId = #{tradeorderId,jdbcType=INTEGER},
+      </if>
+      <if test="amount != null" >
+        status = #{amount,jdbcType=INTEGER},
+      </if>
+
+      <if test="num != null" >
+          num = #{num,jdbcType=INTEGER},
+      </if>
+      <if test="price != null" >
+          price = #{price,jdbcType=DOUBLE},
+      </if>
+      <if test="typeCode != null" >
+          typeCode = #{typeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="storeCode != null" >
+          storeCode = #{storeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="ginfoId != null" >
+          ginfoid = #{ginfoId,jdbcType=INTEGER},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  
+  <select id="getModel" resultMap="GoodsDetailMap" parameterType="java.lang.Long" >
+    select   <include refid="Base_Column_List" /> from goods_detail g
+    where g.id = #{id,jdbcType=BIGINT}
+  </select>
+  
+  <select id="getPagedList" resultMap="GoodsDetailMap" parameterType="com.kd.core.entity.GoodsDetail">
+ 	select    <include refid="Base_Column_List" /> from goods_detail g
+   	<where>
+   		1=1
+   	</where>
+  </select>
+  
+
+  <select id="getGoodsByGid" resultType="java.lang.Integer" parameterType="com.kd.core.entity.GoodsDetail">
+ 	select count(*) from goods_detail 
+ 	<where>
+   		userid = #{userID,jdbcType=VARCHAR}
+   	</where>
+  </select>
+  
+
+</mapper>
