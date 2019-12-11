@@ -2,6 +2,7 @@ package com.kd.core.entity;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
@@ -13,8 +14,27 @@ public class OrderDetail extends BaseEntity implements Serializable {
      *
      */
     private static  long serialVersionUID = 8480363736721539061L;
+    
+    
+    private String email;
+    
+    
 
-    public static long getSerialversionuid() {
+    /**
+	 * @return the email
+	 */
+	public String getEmail() {
+		return email;
+	}
+
+	/**
+	 * @param email the email to set
+	 */
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
 
@@ -138,6 +158,8 @@ public class OrderDetail extends BaseEntity implements Serializable {
     private Integer errCode;
     private String phone;
 
+    private List<GoodsDetail> goodsDetailList;
+
 	public String getPhone() {
 		return phone;
 	}
@@ -147,4 +169,11 @@ public class OrderDetail extends BaseEntity implements Serializable {
 	}
 
 
+	public List<GoodsDetail> getGoodsDetailList() {
+		return goodsDetailList;
+	}
+
+	public void setGoodsDetailList(List<GoodsDetail> goodsDetailList) {
+		this.goodsDetailList = goodsDetailList;
+	}
 }

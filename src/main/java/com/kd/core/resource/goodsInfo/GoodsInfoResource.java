@@ -1,14 +1,10 @@
 package com.kd.core.resource.goodsInfo;
 
+import java.awt.*;
 import java.util.List;
 
-import javax.ws.rs.DELETE;
-import javax.ws.rs.GET;
-import javax.ws.rs.POST;
-import javax.ws.rs.PUT;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.QueryParam;
+import javax.ws.rs.*;
+import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -57,22 +53,31 @@ public class GoodsInfoResource {
 		return goodsInfoService.delete(terId);
 	}
 	
-	@GET
+	@POST
 	@Path("getModel")
-	public GoodsInfo getModel(@QueryParam("goodsInfo") String goodsInfo){
-		GoodsInfo ginfo = new Gson().fromJson(goodsInfo.replace("+", " "),GoodsInfo.class);
+	public GoodsInfo getModel(GoodsInfo ginfo){
+		//GoodsInfo ginfo = new Gson().fromJson(goodsInfo.replace("+", " "),GoodsInfo.class);
 		GoodsInfo res = goodsInfoService.getModel(ginfo);
+		return res;
+	}
+
+	@GET
+	@Path("getGinfo/{id}")
+	public GoodsInfo getGinfo(@PathParam("id") String id){
+		//GoodsInfo ginfo = new Gson().fromJson(goodsInfo.replace("+", " "),GoodsInfo.class);
+		GoodsInfo res = goodsInfoService.getModel(id);
 		return res;
 	}
 	
 	
-	@GET
+	@POST
 	@Path("query")
-	public List<GoodsInfo> queryPager (@QueryParam("goodsInfo") String goodsInfo) {
-		GoodsInfo ginfo=new Gson().fromJson(goodsInfo, GoodsInfo.class);
-		List<GoodsInfo> list = goodsInfoService.getPagedList(ginfo);
+	//@Consumes(MediaType.APPLICATION_JSON)
+	public List<GoodsInfo> queryPager(GoodsInfo goodsInfo) {//@QueryParam("goodsInfo") String goodsInfo
+		//GoodsInfo ginfo=new Gson().fromJson(goodsInfo, GoodsInfo.class);
+		List<GoodsInfo> list = goodsInfoService.getPagedList(goodsInfo);
 		if(list!=null&&list.size()>0){
-			list.get(0).setPageCount(ginfo.pageCount);
+			list.get(0).setPageCount(goodsInfo.pageCount);
 		}
 		return list;
 	} 

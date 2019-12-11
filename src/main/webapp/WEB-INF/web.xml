@@ -112,4 +112,5 @@
     <servlet-class>com.kd.core.auto.autoSearchBaseInfo</servlet-class>
     <load-on-startup>2</load-on-startup>
   </servlet>
+  <absolute-ordering/>
 </web-app>

@@ -4,6 +4,7 @@ package com.kd.core.service.orderDetail;
 import java.util.List;
 
 import com.kd.core.base.BaseService;
+import com.kd.core.entity.GoodsDetail;
 import com.kd.core.entity.OrderDetail;
 
 public interface OrderDetailService extends BaseService<OrderDetail> {

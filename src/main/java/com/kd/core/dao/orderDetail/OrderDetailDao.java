@@ -70,4 +70,6 @@ public interface OrderDetailDao  extends BaseDao<OrderDetail>{
 	
 	public List<OrderDetail> getMeetRoomList(String meetRoomID);
 	
+	public List<OrderDetail> getSendEmailInfo();
+	
 }

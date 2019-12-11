@@ -9,8 +9,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 public class GoodsInfo extends BaseEntity implements Serializable {
 
 	private static final long serialVersionUID = -7638820873381398720L;
-	//商品编号
-	private String id;
 	
 	//商品名称
 	private String goodsName;
@@ -22,30 +20,18 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	private String typeCode;
 	
 	//单价 以分为单位
-	private int price;
+	private Double price;
 	
-	
-	private int orderNum;
+	private Integer orderNum;
 	
 	//剩余数量
-	private int count;
+	private Integer count;
 	
 	//状态：1上架 2 下架
 	private String status;
-
-	/**
-	 * @return the id
-	 */
-	public String getId() {
-		return id;
-	}
-
-	/**
-	 * @param id the id to set
-	 */
-	public void setId(String id) {
-		this.id = id;
-	}
+	
+	//商家头像地址
+	private String photoUrl;
 
 	/**
 	 * @return the goodsName
@@ -89,45 +75,46 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 		this.typeCode = typeCode;
 	}
 
+
 	/**
 	 * @return the price
 	 */
-	public int getPrice() {
+	public Double getPrice() {
 		return price;
 	}
 
 	/**
 	 * @param price the price to set
 	 */
-	public void setPrice(int price) {
+	public void setPrice(Double price) {
 		this.price = price;
 	}
 
 	/**
 	 * @return the orderNum
 	 */
-	public int getOrderNum() {
+	public Integer getOrderNum() {
 		return orderNum;
 	}
 
 	/**
 	 * @param orderNum the orderNum to set
 	 */
-	public void setOrderNum(int orderNum) {
+	public void setOrderNum(Integer orderNum) {
 		this.orderNum = orderNum;
 	}
 
 	/**
 	 * @return the count
 	 */
-	public int getCount() {
+	public Integer getCount() {
 		return count;
 	}
 
 	/**
 	 * @param count the count to set
 	 */
-	public void setCount(int count) {
+	public void setCount(Integer count) {
 		this.count = count;
 	}
 
@@ -143,6 +130,14 @@ public class GoodsInfo extends BaseEntity implements Serializable {
 	 */
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getPhotoUrl() {
+		return photoUrl;
+	}
+
+	public void setPhotoUrl(String photoUrl) {
+		this.photoUrl = photoUrl;
 	}
 	
 }

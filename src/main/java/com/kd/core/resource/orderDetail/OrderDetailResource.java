@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
+import com.kd.core.entity.GoodsDetail;
 import com.kd.core.entity.OrderDetail;
 import com.kd.core.entity.UserLog;
 import com.kd.core.service.orderDetail.OrderDetailService;
@@ -117,10 +118,9 @@ public class OrderDetailResource {
 	 */
 	@POST
 	@Path("add")
-	@Produces(MediaType.TEXT_HTML)
 	public String addOrder(OrderDetail orderDetail) throws Exception{
 		orderDetail.setGlideNo(orderDetailService.getTraceNumber());
-		return String.valueOf(orderDetailService.insert(orderDetail));
+		return String.valueOf(orderDetailService.addOrder(orderDetail));
 	}
 	
 	/**
@@ -200,4 +200,5 @@ public class OrderDetailResource {
 	public String update(OrderDetail orderDetail){
 		return ""+orderDetailService.update(orderDetail);
 	}
+	
 }
