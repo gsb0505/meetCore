@@ -13,6 +13,9 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
+import com.kd.common.unit.util.EncryptUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
@@ -38,6 +41,8 @@ import com.kd.core.util.CoreUtil;
  */
 @Path("/user")
 public class UserResource {
+	private static Logger log = LoggerFactory.getLogger(UserResource.class);
+
 	@Autowired
 	private UserService userService;
 	
@@ -113,9 +118,7 @@ public class UserResource {
 	
 	/**
 	 * 指向修改
-	 * @param id
-	 * @param request
-	 * @param response
+	 * @param user
 	 * @throws Exception
 	 */
 	@GET
@@ -144,16 +147,20 @@ public class UserResource {
 	public boolean modifyError(UserInfo userInfo) throws Exception {
 		return userService.updateErr(userInfo);
 	}
+
+	@GET
+	@Path("wxLogin")
+	public String wxLogin(@QueryParam("user") String user){
+		UserInfo u = new Gson().fromJson(user, UserInfo.class);
+
+		EncryptUtils loginE = new EncryptUtils(u.getUserId(), "MD5");
+		String inPws = loginE.encode(u.getLoginPSW());
+		u.setLoginPSW(inPws);
+		log.debug(new Gson().toJson(userService.validUser(u)));
+		return 	new Gson().toJson(userService.validUser(u));
+	}
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 	
 }

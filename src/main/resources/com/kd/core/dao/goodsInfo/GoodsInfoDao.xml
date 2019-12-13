@@ -71,17 +71,17 @@
     </update>
   
   <select id="getModel" resultMap="GoodsInfoMap" parameterType="java.lang.Long" >
-    select   <include refid="Base_Column_List" /> from goods_info g
-    where g.id = #{id,jdbcType=BIGINT}
+    select   <include refid="Base_Column_List" /> from goods_info
+    where id = #{id,jdbcType=BIGINT}
   </select>
 
     <select id="getModelLock" resultMap="GoodsInfoMap" parameterType="java.lang.Long" >
-        select   <include refid="Base_Column_List" /> from goods_info g
-        where g.id = #{id,jdbcType=BIGINT} FOR UPDATE;
+        select   <include refid="Base_Column_List" /> from goods_info
+        where id = #{id,jdbcType=BIGINT} FOR UPDATE;
     </select>
   
   <select id="getPagedList" resultMap="GoodsInfoMap" parameterType="com.kd.core.entity.GoodsInfo">
- 	select    <include refid="Base_Column_List" /> from goods_info g
+ 	select    <include refid="Base_Column_List" /> from goods_info
    	<where>
    		1=1
         <if test="goodsName != null and goodsName !=''" >
