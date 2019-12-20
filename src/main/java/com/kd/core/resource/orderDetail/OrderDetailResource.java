@@ -11,6 +11,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
+import com.kd.core.service.goodsDetail.GoodsDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
@@ -32,6 +33,8 @@ public class OrderDetailResource {
 	private OrderDetailService orderDetailService;
 	@Autowired
 	private UserLogService userLogService;
+	@Autowired
+	private GoodsDetailService goodsDetailService;
 	
 	@GET
 	@Path("query")
@@ -73,6 +76,12 @@ public class OrderDetailResource {
 	public OrderDetail getModel(@QueryParam("orderDetail") String orderDetail){
 		OrderDetail order = new Gson().fromJson(orderDetail.replace("+", " "),OrderDetail.class);
 		OrderDetail res = orderDetailService.getModel(order);
+		if(res != null){
+			GoodsDetail goodsDetail = new GoodsDetail();
+			goodsDetail.setTradeorderId(res.getId());
+			List<GoodsDetail> detailList = goodsDetailService.getModelList(goodsDetail);
+			res.setGoodsDetailList(detailList);
+		}
 		return res;
 	}
 	

@@ -67,7 +67,7 @@ LEFT JOIN user_info u on u.userid=t.creator
     delete from tradeorder_detail
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.kd.core.entity.OrderDetail" >
+  <insert id="insert" parameterType="com.kd.core.entity.OrderDetail"  useGeneratedKeys="true" keyProperty="id" >
     insert into tradeorder_detail (glide_no, create_time, 
       update_time, meetName, err_code, 
       meetDate, meetStartTime, 

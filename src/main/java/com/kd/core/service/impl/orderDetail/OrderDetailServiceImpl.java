@@ -113,23 +113,24 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
     @Transactional
     public boolean addOrder(OrderDetail orderDetail) {
         int gcount = 0;
+        if (orderDetail.getErrCode() == null){
+            orderDetail.setErrCode(1);
+        }
+        int ocount = dao.insert(orderDetail);
+
         if (orderDetail.getGoodsDetailList() != null) {
             for (GoodsDetail goodsDetail :
                     orderDetail.getGoodsDetailList()) {
+                goodsDetail.setTradeorderId(orderDetail.getId());
                 //修改库存、购买次数
                 goodsInfoService.updateGoodsToNumber(goodsDetail);
 
                 gcount += gdDetailDao.insert(goodsDetail);
             }
         }
-        if (gcount > 0) {
-            if (orderDetail.getErrCode() == null){
-                orderDetail.setErrCode(1);
-            }
-            int ocount = dao.insert(orderDetail);
-            if (ocount > 0) {
-                return true;
-            }
+
+        if (ocount > 0) {
+            return true;
         }
         return false;
     }

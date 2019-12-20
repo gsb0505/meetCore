@@ -20,8 +20,8 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 
 	//商品名称
 	private String goodsName;
-	//会议id
-	private int tradeorderId;
+	//订单号id
+	private String tradeorderId;
 	//商品总价
 	private Double amount;
 	//购买份数
@@ -88,7 +88,7 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	/**
 	 * @return the tradeorderId
 	 */
-	public int getTradeorderId() {
+	public String getTradeorderId() {
 		return tradeorderId;
 	}
 
@@ -96,7 +96,7 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	 * @param tradeorderId
 	 *            the tradeorderId to set
 	 */
-	public void setTradeorderId(int tradeorderId) {
+	public void setTradeorderId(String tradeorderId) {
 		this.tradeorderId = tradeorderId;
 	}
 
