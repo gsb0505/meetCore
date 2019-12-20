@@ -37,7 +37,7 @@
     <result column="photoUrl" property="photoUrl" jdbcType="VARCHAR" />
     <result column="meetNoticeContent" property="meetNoticeContent" jdbcType="VARCHAR" />
 
-<association property="orderDetailList" column="id" select="getMeetRoomList"/>
+	<association property="orderDetailList" column="id" select="getMeetRoomList"/>
   </resultMap>
   
     <select id="getMeetRoomList" resultMap="OrderDetailMap" parameterType="String">

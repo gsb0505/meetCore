@@ -20,7 +20,13 @@
     <result column="creator" property="creator" jdbcType="VARCHAR" />
     <result column="err_code" property="errCode" jdbcType="INTEGER" />
 	<result column="e_mail" property="email" jdbcType="VARCHAR" />
+	<collection property="goodsDetailList" column="id" ofType="GoodsDetail" select="getGoodsDetailList"/>
   </resultMap>
+  
+      <select id="getGoodsDetailList" resultType="com.kd.core.entity.GoodsDetail" parameterType="String">
+   	 select  id,goodsName,tradeorderId,amount,num,price,typeCode,storeCode,create_time,update_time,ginfoid  from goods_detail g
+    where g.tradeorderId = #{id,jdbcType=BIGINT}
+  </select>
   
   
   <sql id="Base_Column_List" >
