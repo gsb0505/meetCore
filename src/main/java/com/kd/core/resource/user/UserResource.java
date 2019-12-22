@@ -13,7 +13,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.UriInfo;
 
-import com.kd.common.unit.util.EncryptUtils;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 
 import com.google.gson.Gson;
+import com.kd.common.unit.util.EncryptUtils;
 import com.kd.core.entity.PageCount;
 import com.kd.core.entity.Role;
 import com.kd.core.entity.UserInfo;
@@ -45,7 +46,7 @@ public class UserResource {
 
 	@Autowired
 	private UserService userService;
-	
+
 	
 	public UserService getUserService() {
 		return userService;
@@ -160,7 +161,7 @@ public class UserResource {
 		return 	new Gson().toJson(userService.validUser(u));
 	}
 	
-	
+
 
 	
 }
