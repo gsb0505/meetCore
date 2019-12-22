@@ -13,7 +13,6 @@
     <result column="num" property="num" jdbcType="DOUBLE" />
     <result column="price" property="price" jdbcType="INTEGER" />
     <result column="typeCode" property="typeCode" jdbcType="INTEGER" />
-     <association property="goodsInfo" column="ginfoid" select="com.kd.core.dao.goodsInfo.GoodsInfoDao.getModel" />
   </resultMap>
   
   <sql id="Base_Column_List" >
