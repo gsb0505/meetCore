@@ -65,9 +65,20 @@ public interface OrderDetailService extends BaseService<OrderDetail> {
 	* @throws
 	 */
 	OrderDetail getTCMoney(OrderDetail orderDetail);
-	
-	
+
+	/**
+	 * 添加会议预约-下单
+	 * @param orderDetail
+	 * @return
+	 */
 	public boolean addOrder(OrderDetail orderDetail) ;
+
+	/**
+	 * 修改会议预约-下单
+	 * @param orderDetail
+	 * @return
+	 */
+	public boolean updateOrder(OrderDetail orderDetail) ;
 	/**
 	 * 
 	 *@描述：获取待审核的数据

@@ -76,12 +76,6 @@ public class OrderDetailResource {
 	public OrderDetail getModel(@QueryParam("orderDetail") String orderDetail){
 		OrderDetail order = new Gson().fromJson(orderDetail.replace("+", " "),OrderDetail.class);
 		OrderDetail res = orderDetailService.getModel(order);
-		if(res != null){
-			GoodsDetail goodsDetail = new GoodsDetail();
-			goodsDetail.setTradeorderId(res.getId());
-			List<GoodsDetail> detailList = goodsDetailService.getModelList(goodsDetail);
-			res.setGoodsDetailList(detailList);
-		}
 		return res;
 	}
 	
@@ -205,9 +199,8 @@ public class OrderDetailResource {
 	
 	@POST
 	@Path("modify")
-	@Produces(MediaType.TEXT_HTML)
 	public String update(OrderDetail orderDetail){
-		return ""+orderDetailService.update(orderDetail);
+		return ""+orderDetailService.updateOrder(orderDetail);
 	}
 	
 }

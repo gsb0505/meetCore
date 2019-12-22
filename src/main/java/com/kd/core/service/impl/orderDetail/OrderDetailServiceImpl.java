@@ -118,7 +118,7 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
         }
         int ocount = dao.insert(orderDetail);
 
-        if (orderDetail.getGoodsDetailList() != null) {
+        if (ocount > 0 && orderDetail.getGoodsDetailList() != null) {
             for (GoodsDetail goodsDetail :
                     orderDetail.getGoodsDetailList()) {
                 goodsDetail.setTradeorderId(orderDetail.getId());
@@ -126,6 +126,31 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
                 goodsInfoService.updateGoodsToNumber(goodsDetail);
 
                 gcount += gdDetailDao.insert(goodsDetail);
+            }
+        }
+
+        if (ocount > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Transactional
+    public boolean updateOrder(OrderDetail orderDetail) {
+        int gcount = 0;
+        if (orderDetail.getErrCode() == null){
+            orderDetail.setErrCode(1);
+        }
+        int ocount = dao.update(orderDetail);
+
+        if (ocount > 0 && orderDetail.getGoodsDetailList() != null) {
+            for (GoodsDetail goodsDetail :
+                    orderDetail.getGoodsDetailList()) {
+                goodsDetail.setTradeorderId(orderDetail.getId());
+                //修改库存、购买次数
+                goodsInfoService.updateGoodsToNumber(goodsDetail);
+
+                gcount += gdDetailDao.update(goodsDetail);
             }
         }
 

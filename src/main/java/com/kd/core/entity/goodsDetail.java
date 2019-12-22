@@ -38,6 +38,8 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 	private Date update_time;
 	//所在用户
 	private String userID;
+	//商品对象
+	private GoodsInfo goodsInfo;
 
 
 	public Double getAmount() {
@@ -182,4 +184,11 @@ public class GoodsDetail extends BaseEntity implements Serializable {
 		this.userID = userID;
 	}
 
+	public GoodsInfo getGoodsInfo() {
+		return goodsInfo;
+	}
+
+	public void setGoodsInfo(GoodsInfo goodsInfo) {
+		this.goodsInfo = goodsInfo;
+	}
 }
