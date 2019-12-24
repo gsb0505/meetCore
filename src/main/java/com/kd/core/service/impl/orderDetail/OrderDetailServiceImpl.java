@@ -6,6 +6,7 @@ import java.util.List;
 import com.kd.core.dao.goodsInfo.GoodsInfoDao;
 import com.kd.core.entity.GoodsInfo;
 import com.kd.core.service.goodsInfo.GoodsInfoService;
+
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.kd.core.base.BaseServiceImpl;
 import com.kd.core.dao.goodsDetail.GoodsDetailDao;
 import com.kd.core.dao.orderDetail.OrderDetailDao;
+import com.kd.core.dto.MessageDto;
 import com.kd.core.entity.GoodsDetail;
 import com.kd.core.entity.OrderDetail;
 import com.kd.core.resource.common.TraceNumberService;
@@ -111,13 +113,16 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
 
 
     @Transactional
-    public boolean addOrder(OrderDetail orderDetail) {
+    public MessageDto addOrder(OrderDetail orderDetail) {
         int gcount = 0;
+        MessageDto dto = new MessageDto();
         if (orderDetail.getErrCode() == null){
             orderDetail.setErrCode(1);
         }
         if (meetVerifi(orderDetail) == false){
-        	return false;
+        	dto.setMessage("该时间已被预约");
+        	dto.setRetcode("false");
+        	return dto;
         }
         int ocount = dao.insert(orderDetail);
 
@@ -126,26 +131,38 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
                     orderDetail.getGoodsDetailList()) {
                 goodsDetail.setTradeorderId(orderDetail.getId());
                 //修改库存、购买次数
-                goodsInfoService.updateGoodsToNumber(goodsDetail,true);
+               boolean flag =  goodsInfoService.updateGoodsToNumber(goodsDetail,true);
+               if (flag == false){
+            	    dto.setMessage("商品库存不足，会议预约失败");
+               		dto.setRetcode("false");
+            	   return dto;
+               }
 
                 gcount += gdDetailDao.insert(goodsDetail);
             }
         }
 
         if (ocount > 0) {
-            return true;
+           dto.setMessage("会议预约成功");
+           dto.setRetcode("true");
+      	   return dto;
         }
-        return false;
+        dto.setMessage("会议预约失败");
+   		dto.setRetcode("false");
+	   return dto;
     }
 
     @Transactional
-    public boolean updateOrder(OrderDetail orderDetail) {
+    public MessageDto updateOrder(OrderDetail orderDetail) {
         int gcount = 0;
+        MessageDto dto = new MessageDto();
         if (orderDetail.getErrCode() == null){
             orderDetail.setErrCode(1);
         }
         if (meetVerifi(orderDetail) == false){
-        	return false;
+        	dto.setMessage("该时间已被预约");
+        	dto.setRetcode("false");
+        	return dto;
         }
         int ocount = dao.update(orderDetail);
 
@@ -156,7 +173,12 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
         	List<GoodsDetail> GoodsDetailList = gdDetailDao.getModelList(gd);
         	for (GoodsDetail goodsDetail :GoodsDetailList){
 //        		原订购商品回归库存
-        		 goodsInfoService.updateGoodsToNumber(goodsDetail,false);
+        		boolean flag = goodsInfoService.updateGoodsToNumber(goodsDetail,false);
+                 if (flag == false){
+              	   dto.setMessage("商品库存异常");
+                   dto.setRetcode("false");
+              	   return dto;
+                 }
         	}        	
         	//删除原有商品
         	gdDetailDao.deleteOrderDetail(orderDetail.getId());
@@ -165,16 +187,25 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
                     orderDetail.getGoodsDetailList()) {
                 goodsDetail.setTradeorderId(orderDetail.getId());
                 //修改库存、购买次数
-                goodsInfoService.updateGoodsToNumber(goodsDetail,true);
+                boolean flag =goodsInfoService.updateGoodsToNumber(goodsDetail,true);
+                if (flag == false){
+            	    dto.setMessage("商品库存不足，会议预约失败");
+               		dto.setRetcode("false");
+            	   return dto;
+               }
 
                 gcount += gdDetailDao.insert(goodsDetail);
             }
         }
 
         if (ocount > 0) {
-            return true;
+        	dto.setMessage("会议预约成功");
+            dto.setRetcode("true");
+       	   return dto;
         }
-        return false;
+        dto.setMessage("会议预约失败");
+   		dto.setRetcode("false");
+	   return dto;
     }
 
     /**

@@ -11,9 +11,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 
 import com.kd.core.service.goodsDetail.GoodsDetailService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
+import com.kd.core.dto.MessageDto;
 import com.kd.core.entity.OrderDetail;
 import com.kd.core.entity.UserLog;
 import com.kd.core.service.orderDetail.OrderDetailService;
@@ -119,9 +121,9 @@ public class OrderDetailResource {
 	 */
 	@POST
 	@Path("add")
-	public String addOrder(OrderDetail orderDetail) throws Exception{
+	public MessageDto addOrder(OrderDetail orderDetail) throws Exception{
 		orderDetail.setGlideNo(orderDetailService.getTraceNumber());
-		return String.valueOf(orderDetailService.addOrder(orderDetail));
+		return orderDetailService.addOrder(orderDetail);
 	}
 	
 	/**
@@ -197,8 +199,8 @@ public class OrderDetailResource {
 	
 	@POST
 	@Path("modify")
-	public String update(OrderDetail orderDetail){
-		return ""+orderDetailService.updateOrder(orderDetail);
+	public MessageDto update(OrderDetail orderDetail){
+		return orderDetailService.updateOrder(orderDetail);
 	}
 	
 	@POST

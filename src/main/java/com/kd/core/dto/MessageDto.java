@@ -2,6 +2,8 @@ package com.kd.core.dto;
 
 import java.io.Serializable;
 
+import javax.xml.bind.annotation.XmlRootElement;
+
 
 	/**
 	 * 
@@ -12,6 +14,7 @@ import java.io.Serializable;
 	 * @修改备注:
 	 * @version
 	 */
+	@XmlRootElement
 	public class MessageDto implements Serializable {
 		/**
 		 * 

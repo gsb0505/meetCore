@@ -4,6 +4,7 @@ package com.kd.core.service.orderDetail;
 import java.util.List;
 
 import com.kd.core.base.BaseService;
+import com.kd.core.dto.MessageDto;
 import com.kd.core.entity.GoodsDetail;
 import com.kd.core.entity.OrderDetail;
 
@@ -71,14 +72,14 @@ public interface OrderDetailService extends BaseService<OrderDetail> {
 	 * @param orderDetail
 	 * @return
 	 */
-	public boolean addOrder(OrderDetail orderDetail) ;
+	public MessageDto addOrder(OrderDetail orderDetail) ;
 
 	/**
 	 * 修改会议预约-下单
 	 * @param orderDetail
 	 * @return
 	 */
-	public boolean updateOrder(OrderDetail orderDetail) ;
+	public MessageDto updateOrder(OrderDetail orderDetail) ;
 	
 	
 	/**
