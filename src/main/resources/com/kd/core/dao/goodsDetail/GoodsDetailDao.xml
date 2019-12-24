@@ -24,6 +24,11 @@
     where id = #{id,jdbcType=Integer}
   </delete>
   
+    <delete id="deleteOrderDetail" parameterType="java.lang.String" >
+    delete from goods_detail
+    where tradeorderId = #{tradeorderId,jdbcType=VARCHAR}
+  </delete>
+  
   <insert id="insert" parameterType="com.kd.core.entity.GoodsDetail" >
   INSERT INTO goods_detail(goodsName,tradeorderId,amount,num,price,typeCode,storeCode,create_time,update_time,ginfoid) VALUES
 (#{goodsName,jdbcType=VARCHAR},#{tradeorderId,jdbcType=INTEGER}, #{amount,jdbcType=DOUBLE},#{num,jdbcType=INTEGER},

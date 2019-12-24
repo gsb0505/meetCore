@@ -116,6 +116,9 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
         if (orderDetail.getErrCode() == null){
             orderDetail.setErrCode(1);
         }
+        if (meetVerifi(orderDetail) == false){
+        	return false;
+        }
         int ocount = dao.insert(orderDetail);
 
         if (ocount > 0 && orderDetail.getGoodsDetailList() != null) {
@@ -123,7 +126,7 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
                     orderDetail.getGoodsDetailList()) {
                 goodsDetail.setTradeorderId(orderDetail.getId());
                 //修改库存、购买次数
-                goodsInfoService.updateGoodsToNumber(goodsDetail);
+                goodsInfoService.updateGoodsToNumber(goodsDetail,true);
 
                 gcount += gdDetailDao.insert(goodsDetail);
             }
@@ -141,16 +144,30 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
         if (orderDetail.getErrCode() == null){
             orderDetail.setErrCode(1);
         }
+        if (meetVerifi(orderDetail) == false){
+        	return false;
+        }
         int ocount = dao.update(orderDetail);
 
         if (ocount > 0 && orderDetail.getGoodsDetailList() != null) {
+        	GoodsDetail gd = new GoodsDetail();
+        	gd.setTradeorderId(orderDetail.getId());
+        	//获取原来订购商品
+        	List<GoodsDetail> GoodsDetailList = gdDetailDao.getModelList(gd);
+        	for (GoodsDetail goodsDetail :GoodsDetailList){
+//        		原订购商品回归库存
+        		 goodsInfoService.updateGoodsToNumber(goodsDetail,false);
+        	}        	
+        	//删除原有商品
+        	gdDetailDao.deleteOrderDetail(orderDetail.getId());
+        	//现有商品进行添加
             for (GoodsDetail goodsDetail :
                     orderDetail.getGoodsDetailList()) {
                 goodsDetail.setTradeorderId(orderDetail.getId());
                 //修改库存、购买次数
-                goodsInfoService.updateGoodsToNumber(goodsDetail);
+                goodsInfoService.updateGoodsToNumber(goodsDetail,true);
 
-                gcount += gdDetailDao.update(goodsDetail);
+                gcount += gdDetailDao.insert(goodsDetail);
             }
         }
 
@@ -198,5 +215,79 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
         }
         return true;
     }
+
+	@Override
+	public boolean cancelOrder(OrderDetail orderDetail) {
+	        if (orderDetail.getErrCode() == null){
+	            orderDetail.setErrCode(3);
+	        }
+	        int ocount = dao.update(orderDetail);
+	        OrderDetail od = dao.getModel(orderDetail);
+
+	        if (ocount > 0 && od.getGoodsDetailList() != null) {
+	        	GoodsDetail gd = new GoodsDetail();
+	        	gd.setTradeorderId(od.getId());
+	        	//获取原来订购商品
+	        	List<GoodsDetail> GoodsDetailList = gdDetailDao.getModelList(gd);
+	        	for (GoodsDetail goodsDetail :GoodsDetailList){
+//	        		原订购商品回归库存
+	        		 goodsInfoService.updateGoodsToNumber(goodsDetail,false);
+	        	}        	
+	        }
+
+	        if (ocount > 0) {
+	            return true;
+	        }
+	        return false;
+	}
+
+	@Override
+	public boolean meetVerifi(OrderDetail orderDetail) {
+		String cStartTime = orderDetail.getMeetStartTime();
+		String cEndTime = orderDetail.getMeetEndTime();
+		String id = orderDetail.getId();
+		OrderDetail od = new OrderDetail();
+		od.setMeetDate(orderDetail.getMeetDate());
+		od.setMeetRoomID(orderDetail.getMeetRoomID());
+		List<OrderDetail> odList = dao.getModelList(od);
+		boolean flag = true;
+		
+		for (OrderDetail orderDetail2 : odList) {
+			String mStartTime = orderDetail2.getMeetStartTime();
+			String mEndTime = orderDetail2.getMeetEndTime();
+			if (orderDetail2.getErrCode()==3 || orderDetail2.getId().equals(id)){
+				continue;
+			}
+			//若字符串等于参数字符串、则返回0，字符串小于参数字符串、则返回值小于0，字符串大于参数字符串、返回值大于0。
+			Integer sCompare = mStartTime.compareTo(cStartTime);
+			Integer eCompare = mEndTime.compareTo(cEndTime);
+			Integer seCompare = mStartTime.compareTo(cEndTime);
+			Integer esCompare = mEndTime.compareTo(cStartTime);
+			
+			if ((sCompare==0)){
+				flag =false;
+				break;
+			}
+			if (sCompare<0 && eCompare >=0){
+				flag =false;
+				break;
+			}
+			if (sCompare<0 && esCompare >0){
+				flag =false;
+				break;
+			}
+			if (sCompare>0 && eCompare <=0 ){
+				flag =false;
+				break;
+			}
+			if (seCompare<0 && eCompare >=0){
+				flag =false;
+				break;
+			}
+		}
+	
+		// TODO Auto-generated method stub
+		return flag;
+	}
 
 }

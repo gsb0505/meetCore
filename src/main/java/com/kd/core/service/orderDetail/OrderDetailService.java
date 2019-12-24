@@ -79,6 +79,24 @@ public interface OrderDetailService extends BaseService<OrderDetail> {
 	 * @return
 	 */
 	public boolean updateOrder(OrderDetail orderDetail) ;
+	
+	
+	/**
+	 * 撤消会议预约-下单
+	 * @param orderDetail
+	 * @return
+	 */
+	public boolean cancelOrder(OrderDetail orderDetail) ;
+	
+	
+	/**
+	 * 会议校验
+	 * @param orderDetail
+	 * @return
+	 */
+	public boolean meetVerifi(OrderDetail orderDetail) ;
+	
+	
 	/**
 	 * 
 	 *@描述：获取待审核的数据

@@ -9,13 +9,11 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
-import javax.ws.rs.core.MediaType;
 
 import com.kd.core.service.goodsDetail.GoodsDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
-import com.kd.core.entity.GoodsDetail;
 import com.kd.core.entity.OrderDetail;
 import com.kd.core.entity.UserLog;
 import com.kd.core.service.orderDetail.OrderDetailService;
@@ -203,4 +201,28 @@ public class OrderDetailResource {
 		return ""+orderDetailService.updateOrder(orderDetail);
 	}
 	
+	@POST
+	@Path("cancel")
+	public String cancel(OrderDetail orderDetail){
+		return ""+orderDetailService.cancelOrder(orderDetail);
+	}
+	/**
+	 * 
+	 *@描述:会议校验
+	 *@创建时间：2017年6月23日 下午5:38:18
+	 *@修改人：
+	 *@修改时间：
+	 *@修改描述：
+	 *@param
+	 *@return
+	 *@return
+	 * @throws Exception 
+	 */
+	
+	@GET
+	@Path("meetVerifi")
+	public String meetVerifi(@QueryParam("orderDetail") String orderDetail){
+		OrderDetail order = new Gson().fromJson(orderDetail.replace("+", " "),OrderDetail.class);
+		return ""+orderDetailService.meetVerifi(order);
+	}
 }

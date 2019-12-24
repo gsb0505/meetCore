@@ -11,6 +11,6 @@ public interface GoodsInfoService extends BaseService<GoodsInfo>{
      * 更新商品购买数量和库存
      * @param goodsDetail
      */
-    public void updateGoodsToNumber(GoodsDetail goodsDetail);
+    public void updateGoodsToNumber(GoodsDetail goodsDetail,Boolean flag);
 
 }

@@ -13,16 +13,27 @@ public class GoodsInfoServiceImpl extends BaseServiceImpl<GoodsInfo, GoodsInfoDa
 
     @Override
     @Transactional
-    public void updateGoodsToNumber(GoodsDetail goodsDetail){
+    public void updateGoodsToNumber(GoodsDetail goodsDetail,Boolean flag){
         //修改库存、购买次数
         GoodsInfo qgoodsInfo = dao.getModelLock(goodsDetail.getGinfoId());
         GoodsInfo ugoodsInfo = new GoodsInfo();
         ugoodsInfo.setId(goodsDetail.getGinfoId());
-        //购买数量+
-        ugoodsInfo.setOrderNum(qgoodsInfo.getOrderNum()+goodsDetail.getNum());
-        //剩余数量-
-        ugoodsInfo.setCount(qgoodsInfo.getCount()-goodsDetail.getNum());
+        if (flag){
+        	//购买商品
+        	//购买数量+
+        	ugoodsInfo.setOrderNum(qgoodsInfo.getOrderNum()+goodsDetail.getNum());
+        	//剩余数量-
+        	ugoodsInfo.setCount(qgoodsInfo.getCount()-goodsDetail.getNum());
+        }else{
+        	//退购商品
+        	//购买数量+
+            ugoodsInfo.setOrderNum(qgoodsInfo.getOrderNum()-goodsDetail.getNum());
+            //剩余数量-
+            ugoodsInfo.setCount(qgoodsInfo.getCount()+goodsDetail.getNum());
+        }
         dao.updateNumber(ugoodsInfo);
     }
+    
+    
 
 }
