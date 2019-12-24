@@ -22,8 +22,21 @@
 	<result column="e_mail" property="email" jdbcType="VARCHAR" />
 	<collection property="goodsDetailList" column="id" ofType="GoodsDetail" select="getGoodsDetailList"/>
   </resultMap>
+    <resultMap id="GoodsDetailMap" type="com.kd.core.entity.GoodsDetail" >
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="userid" property="userID" jdbcType="VARCHAR" />
+        <result column="ginfoid" property="ginfoId" jdbcType="BIGINT" />
+        <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
+        <result column="storeCode" property="storeCode" jdbcType="VARCHAR" />
+        <result column="tradeorderId" property="tradeorderId" jdbcType="VARCHAR" />
+        <result column="amount" property="amount" jdbcType="VARCHAR" />
+        <result column="num" property="num" jdbcType="DOUBLE" />
+        <result column="price" property="price" jdbcType="INTEGER" />
+        <result column="typeCode" property="typeCode" jdbcType="INTEGER" />
+        <association property="goodsInfo" column="ginfoid" select="com.kd.core.dao.goodsInfo.GoodsInfoDao.getModel" />
+    </resultMap>
 
-  <select id="getGoodsDetailList" resultType="com.kd.core.entity.GoodsDetail" parameterType="String">
+  <select id="getGoodsDetailList" resultMap="GoodsDetailMap" parameterType="String">
    	 select  id,goodsName,tradeorderId,amount,num,price,typeCode,storeCode,create_time,update_time,ginfoid  from goods_detail g
     where g.tradeorderId = #{id,jdbcType=BIGINT}
   </select>

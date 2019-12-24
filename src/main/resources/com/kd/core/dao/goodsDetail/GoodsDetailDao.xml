@@ -40,9 +40,8 @@
           tradeorderId = #{tradeorderId,jdbcType=INTEGER},
       </if>
       <if test="amount != null" >
-        status = #{amount,jdbcType=INTEGER},
+          amount = #{amount,jdbcType=INTEGER},
       </if>
-
       <if test="num != null" >
           num = #{num,jdbcType=INTEGER},
       </if>
