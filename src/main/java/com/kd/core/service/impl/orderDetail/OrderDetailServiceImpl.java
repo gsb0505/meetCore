@@ -115,7 +115,6 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
 
     @Transactional
     public MessageDto addOrder(OrderDetail orderDetail) {
-        int gcount = 0;
         MessageDto dto = new MessageDto();
         if (orderDetail.getErrCode() == null){
             orderDetail.setErrCode(1);
@@ -161,7 +160,6 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
 
     @Transactional
     public MessageDto updateOrder(OrderDetail orderDetail) {
-        int gcount = 0;
         MessageDto dto = new MessageDto();
         if (orderDetail.getErrCode() == null){
             orderDetail.setErrCode(1);
