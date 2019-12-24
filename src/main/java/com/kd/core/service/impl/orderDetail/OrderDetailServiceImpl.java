@@ -10,6 +10,7 @@ import com.kd.core.service.goodsInfo.GoodsInfoService;
 import org.mybatis.spring.mapper.MapperFactoryBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.interceptor.TransactionAspectSupport;
 
 import com.kd.core.base.BaseServiceImpl;
 import com.kd.core.dao.goodsDetail.GoodsDetailDao;
@@ -133,12 +134,18 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
                 //修改库存、购买次数
                boolean flag =  goodsInfoService.updateGoodsToNumber(goodsDetail,true);
                if (flag == false){
-            	    dto.setMessage("商品库存不足，会议预约失败");
-               		dto.setRetcode("false");
+            	   TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+            	   dto.setMessage("商品库存不足，会议预约失败");
+               	   dto.setRetcode("false");
             	   return dto;
                }
 
-                gcount += gdDetailDao.insert(goodsDetail);
+               if( gdDetailDao.insert(goodsDetail) <=0){
+               		TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+               		dto.setMessage("商品订单保存异常，会议预约失败");
+              		dto.setRetcode("false");
+              		return dto;
+               }
             }
         }
 
@@ -174,10 +181,11 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
         	for (GoodsDetail goodsDetail :GoodsDetailList){
 //        		原订购商品回归库存
         		boolean flag = goodsInfoService.updateGoodsToNumber(goodsDetail,false);
-                 if (flag == false){
-              	   dto.setMessage("商品库存异常");
-                   dto.setRetcode("false");
-              	   return dto;
+                if (flag == false){
+                	TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                	dto.setMessage("商品库存异常");
+                	dto.setRetcode("false");
+              	   	return dto;
                  }
         	}        	
         	//删除原有商品
@@ -189,12 +197,18 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
                 //修改库存、购买次数
                 boolean flag =goodsInfoService.updateGoodsToNumber(goodsDetail,true);
                 if (flag == false){
+                	TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
             	    dto.setMessage("商品库存不足，会议预约失败");
                		dto.setRetcode("false");
-            	   return dto;
+               		return dto;
                }
 
-                gcount += gdDetailDao.insert(goodsDetail);
+                if( gdDetailDao.insert(goodsDetail) <=0){
+                	TransactionAspectSupport.currentTransactionStatus().setRollbackOnly();
+                	dto.setMessage("商品订单保存异常，会议预约失败");
+               		dto.setRetcode("false");
+               		return dto;
+                }
             }
         }
 
