@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.core.MediaType;
 
 import com.kd.core.service.goodsDetail.GoodsDetailService;
 
@@ -202,7 +203,14 @@ public class OrderDetailResource {
 	public MessageDto update(OrderDetail orderDetail){
 		return orderDetailService.updateOrder(orderDetail);
 	}
-	
+
+	@POST
+	@Path("upOrderDetail")
+	public String upOrderDetail(OrderDetail orderDetail){
+		return orderDetailService.update(orderDetail) + "";
+	}
+
+
 	@POST
 	@Path("cancel")
 	public String cancel(OrderDetail orderDetail){
