@@ -10,6 +10,7 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import com.kd.core.service.goodsDetail.GoodsDetailService;
 
@@ -200,8 +201,10 @@ public class OrderDetailResource {
 	
 	@POST
 	@Path("modify")
-	public MessageDto update(OrderDetail orderDetail){
-		return orderDetailService.updateOrder(orderDetail);
+	//@Produces({MediaType.APPLICATION_JSON+";charset=UTF-8","text/html;charset=utf-8"})
+	public Response update(OrderDetail orderDetail){
+		MessageDto dto = orderDetailService.updateOrder(orderDetail);
+		return Response.ok(dto).build();
 	}
 
 	@POST

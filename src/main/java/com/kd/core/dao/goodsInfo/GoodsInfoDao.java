@@ -20,5 +20,12 @@ public interface GoodsInfoDao extends BaseDao<GoodsInfo>{
      */
     public GoodsInfo getModelLock(String id);
 
+    /**
+     * 查询数量
+     * @param goodsInfo
+     * @return
+     */
+    public int getSelectedCount(GoodsInfo goodsInfo);
+
 
 }

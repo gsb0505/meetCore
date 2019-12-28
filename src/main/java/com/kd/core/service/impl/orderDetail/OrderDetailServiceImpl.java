@@ -27,16 +27,10 @@ public class OrderDetailServiceImpl extends BaseServiceImpl<OrderDetail, OrderDe
     @Autowired
     private GoodsDetailDao gdDetailDao;
     @Autowired
-    private GoodsInfoDao goodsInfoDao;
-    @Autowired
     private GoodsInfoService goodsInfoService;
 
     public void setGdDetailDao(GoodsDetailDao gdDetailDao) {
         this.gdDetailDao = gdDetailDao;
-    }
-
-    public void setGoodsInfoDao(GoodsInfoDao goodsInfoDao) {
-        this.goodsInfoDao = goodsInfoDao;
     }
 
     /**

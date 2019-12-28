@@ -41,7 +41,11 @@ public class GoodsInfoServiceImpl extends BaseServiceImpl<GoodsInfo, GoodsInfoDa
         	return false;
         }
     }
-    
-    
+
+    @Override
+    public int getSelectedCount(GoodsInfo goodsInfo) {
+        return dao.getSelectedCount(goodsInfo);
+    }
+
 
 }

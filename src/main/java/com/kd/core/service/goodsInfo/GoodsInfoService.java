@@ -13,4 +13,11 @@ public interface GoodsInfoService extends BaseService<GoodsInfo>{
      */
     public Boolean updateGoodsToNumber(GoodsDetail goodsDetail,Boolean flag);
 
+    /**
+     * 查询数量
+     * @param goodsInfo
+     * @return
+     */
+    public int getSelectedCount(GoodsInfo goodsInfo);
+
 }
