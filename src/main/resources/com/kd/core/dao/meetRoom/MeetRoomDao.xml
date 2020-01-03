@@ -36,17 +36,16 @@
         <result column="operator_No" property="creator" jdbcType="VARCHAR"/>
         <result column="photoUrl" property="photoUrl" jdbcType="VARCHAR"/>
         <result column="meetNoticeContent" property="meetNoticeContent" jdbcType="VARCHAR"/>
-
-        <association property="orderDetailList" column="id" select="getMeetRoomList"/>
+        <collection property="orderDetailList" column="id" ofType="OrderDetail" select="getOrderDetailList"/>
     </resultMap>
 
-    <select id="getMeetRoomList" resultMap="OrderDetailMap" parameterType="String">
+    <select id="getOrderDetailList" resultMap="OrderDetailMap" parameterType="String">
    	 select 
 	 id, glide_no, create_time, update_time, meetName, meetDate, meetStartTime, meetEndTime, 
      err_code, specialdemand, emailNotification, meetRoomID, remark, creator
     from tradeorder_detail td 
   where
-   		td.meetRoomID=#{meetRoomID} 
+   		td.meetRoomID=#{id} 
    		and DATE_FORMAT(td.meetDate,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
     	and ((td.meetStartTime &lt;= DATE_FORMAT(now(),'%H:%i') and td.meetEndTime &gt;= DATE_FORMAT(now(),'%H:%i')) 
     	or (td.meetStartTime &gt;= DATE_FORMAT(now(),'%H:%i')))
@@ -74,7 +73,7 @@
 	meetRoomType,
 	personID,
 	terminalNo,
-	t.operator_No,
+	t.operator_No,t.photoUrl,
 	mn.meetNoticeContent from meetroom t
      LEFT JOIN meetnotice mn ON mn.meetRoomID=t.id and mn.`status`=0
     where t.terminalNo = #{terminalNo,jdbcType=VARCHAR}
@@ -122,7 +121,7 @@
     </update>
 
     <select id="getPagedList" resultMap="MeetRoomMap" parameterType="com.kd.core.entity.MeetRoom">
-        select t.id, t.create_time,t.operator_No, t.update_time, t.meetRoomID, t.meetRoomName, t.status, t.meetRoomType,
+        select t.id, t.create_time,t.operator_No, t.update_time, t.meetRoomID, t.meetRoomName, t.status, t.meetRoomType,t.photoUrl,
         t.personID,ui.userid as person, t.terminalNo,ai.code as meetRoomTypeName from meetRoom t
         left JOIN system_basedata ai ON t.meetRoomType=ai.code
         left JOIN user_info ui ON t.personID=ui.id
