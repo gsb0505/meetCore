@@ -24,9 +24,9 @@
   </delete>
   
   <insert id="insert" parameterType="com.kd.core.entity.GoodsInfo" >
-    insert into goods_info (goodsName,storeCode,typeCode,price,orderNum,`count`,status,photoUrl)
-    values ( #{goodsName,jdbcType=VARCHAR},#{storeCode,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR},#{price,jdbcType=DOUBLE},
-      #{orderNum,jdbcType=INTEGER}, #{count,jdbcType=INTEGER},#{status,jdbcType=VARCHAR},#{photoUrl,jdbcType=VARCHAR})
+    insert into goods_info (goodsName,storeCode,typeCode,price,`count`,status,photoUrl)
+    values ( #{goodsName,jdbcType=VARCHAR},#{storeCode,jdbcType=VARCHAR}, #{typeCode,jdbcType=VARCHAR},#{price,jdbcType=DOUBLE}
+     , #{count,jdbcType=INTEGER},#{status,jdbcType=VARCHAR},#{photoUrl,jdbcType=VARCHAR})
   </insert>
   
   <update id="updateNumber" parameterType="com.kd.core.entity.GoodsInfo" >
