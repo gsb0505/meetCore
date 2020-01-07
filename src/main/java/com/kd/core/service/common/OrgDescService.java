@@ -3,7 +3,7 @@
  * @package:com.kd.core.service.common
  * @projectName:cloud-core
  * @CreateTime:2015年1月22日-下午2:19:29
- *  2015杭州宽达信息技术有限公司-版权所有
+ *  杭州铭业管网科技有限公司-版权所有
  *
  */
 package com.kd.core.service.common;

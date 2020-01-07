@@ -3,7 +3,7 @@
  * @package:com.kd.core.entity
  * @projectName:cloud-core
  * @CreateTime:2015年1月20日-下午2:49:21
- *  2015杭州宽达信息技术有限公司-版权所有
+ *  杭州铭业管网科技有限公司-版权所有
  *
  */
 package com.kd.core.entity;
