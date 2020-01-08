@@ -1,28 +1,16 @@
 package com.kd.core.quartz;
 
-import java.io.IOException;
-import java.io.StringReader;
 import java.util.List;
 
 import javax.ws.rs.client.*;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import com.kd.core.dao.orderDetail.OrderDetailDao;
 import com.kd.core.entity.OrderDetail;
-import com.kd.core.service.orderDetail.OrderDetailService;
 import com.kd.core.util.PropertiesUtil;
 
 

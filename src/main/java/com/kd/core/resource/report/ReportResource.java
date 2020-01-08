@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.google.gson.Gson;
 import com.kd.core.entity.SystemTReport;
+import com.kd.core.entity.GoodsDetailSReport;
 import com.kd.core.service.report.SystemTReportService;
+import com.kd.core.service.report.GoodsDetailSReportService;
 
 @Path("/report")
 public class ReportResource {
@@ -18,6 +20,10 @@ public class ReportResource {
 	
 	@Autowired
 	private SystemTReportService systemTReportService;
+	
+	@Autowired
+	private GoodsDetailSReportService goodsDetailSReportService;
+	
 	
 	
 	@GET
@@ -41,5 +47,23 @@ public class ReportResource {
 	}
 	
 	
-
+	@GET
+	@Path("/queryGoodsDetailReport")
+	public List<GoodsDetailSReport> queryGoodsDetailReport(@QueryParam("goodsDetailReport")String  goodsDetailReport ){
+		GoodsDetailSReport gdReport = new Gson().fromJson(goodsDetailReport.replace("+", " "),GoodsDetailSReport.class);
+		List<GoodsDetailSReport> list =  goodsDetailSReportService.getPagedList(gdReport);
+		if(list!=null&&list.size()>0){
+			list.get(0).setPageCount(gdReport.pageCount);
+		}
+		return list;
+	}
+	
+	@GET
+	@Path("/queryGoodsDetailReportList")
+	public List<GoodsDetailSReport> queryGoodsDetailReportList(@QueryParam("goodsDetailReport")String  goodsDetailReport ){
+		GoodsDetailSReport gdReport = new Gson().fromJson(goodsDetailReport.replace("+", " "),GoodsDetailSReport.class);
+		return goodsDetailSReportService.getModelList(gdReport);
+	}
+	
+	
 }

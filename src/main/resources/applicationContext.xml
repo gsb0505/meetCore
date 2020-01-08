@@ -286,6 +286,15 @@
 		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
 	</bean>
 	
+		<!-- 预约商品详情报表-->
+	<bean id="goodsDetailSReportServiceImpl" class="com.kd.core.service.impl.report.GoodsDetailSReportServiceImpl">
+		<property name="dao" ref="goodsDetailSReportDao"></property>
+	</bean>
+	<bean id="goodsDetailSReportDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kd.core.dao.report.GoodsDetailSReportDao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
 	
 	<!-- 商品描述 -->
 	<bean id="goodsInfoResource" class="com.kd.core.resource.goodsInfo.GoodsInfoResource">

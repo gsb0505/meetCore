@@ -7,12 +7,13 @@
     <result column="userid" property="userID" jdbcType="VARCHAR" />
     <result column="ginfoid" property="ginfoId" jdbcType="BIGINT" />
     <result column="goodsName" property="goodsName" jdbcType="VARCHAR" />
-    <result column="storeCode" property="storeCode" jdbcType="VARCHAR" />
     <result column="tradeorderId" property="tradeorderId" jdbcType="VARCHAR" />
     <result column="amount" property="amount" jdbcType="VARCHAR" />
     <result column="num" property="num" jdbcType="DOUBLE" />
     <result column="price" property="price" jdbcType="INTEGER" />
     <result column="typeCode" property="typeCode" jdbcType="INTEGER" />
+    <result column="storeCode" property="storeCode" jdbcType="VARCHAR" />
+    <result column="creator" property="creator" jdbcType="VARCHAR" />
   </resultMap>
   
   <sql id="Base_Column_List" >
@@ -23,12 +24,12 @@
     delete from goods_detail
     where id = #{id,jdbcType=Integer}
   </delete>
-  
+
     <delete id="deleteOrderDetail" parameterType="java.lang.String" >
     delete from goods_detail
     where tradeorderId = #{tradeorderId,jdbcType=VARCHAR}
   </delete>
-  
+
   <insert id="insert" parameterType="com.kd.core.entity.GoodsDetail" >
   INSERT INTO goods_detail(goodsName,tradeorderId,amount,num,price,typeCode,storeCode,create_time,update_time,ginfoid) VALUES
 (#{goodsName,jdbcType=VARCHAR},#{tradeorderId,jdbcType=INTEGER}, #{amount,jdbcType=DOUBLE},#{num,jdbcType=INTEGER},
@@ -47,6 +48,7 @@
       <if test="amount != null" >
           amount = #{amount,jdbcType=INTEGER},
       </if>
+
       <if test="num != null" >
           num = #{num,jdbcType=INTEGER},
       </if>
@@ -67,14 +69,21 @@
   </update>
   
   <select id="getModel" resultMap="GoodsDetailMap" parameterType="java.lang.Long" >
-    select  <include refid="Base_Column_List" /> from goods_detail
-    where id = #{id,jdbcType=BIGINT}
+    select   <include refid="Base_Column_List" /> from goods_detail g
+    where g.id = #{id,jdbcType=BIGINT}
   </select>
   
   <select id="getPagedList" resultMap="GoodsDetailMap" parameterType="com.kd.core.entity.GoodsDetail">
- 	select  <include refid="Base_Column_List" /> from goods_detail
+ 	SELECT DATE_FORMAT(td.create_time,'%Y-%m-%d %H:%i:%S') as creator,g.update_time,td.glide_no as typeCode,sb.name as storeCode,g.goodsName,g.num,g.price,g.amount from goods_detail g 
+ 	INNER JOIN tradeorder_detail td ON td.id=g.tradeorderId INNER JOIN system_basedata sb ON sb.code=g.storeCode
    	<where>
    		1=1
+	<if test="goodsName != null and goodsName != ''">
+		and g.goodsName = #{goodsName,jdbcType=BIGINT}
+	</if>
+	<if test="storeCode != null and storeCode != ''">
+		and g.storeCode = #{storeCode,jdbcType=VARCHAR}
+	</if>
    	</where>
   </select>
   

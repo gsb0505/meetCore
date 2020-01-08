@@ -40,7 +40,7 @@
    	 select  id,goodsName,tradeorderId,amount,num,price,typeCode,storeCode,create_time,update_time,ginfoid  from goods_detail g
     where g.tradeorderId = #{id,jdbcType=BIGINT}
   </select>
-  
+
   
   <sql id="Base_Column_List" >
     id, glide_no, create_time, update_time, meetName, meetDate, meetStartTime, meetEndTime, 
@@ -274,6 +274,10 @@ LEFT JOIN user_info u on u.userid=t.creator
     from tradeorder_detail td 
     LEFT JOIN meetRoom mr ON mr.id=td.meetRoomID
     LEFT JOIN user_info u on u.userid=td.creator WHERE to_days(td.meetDate) = to_days(now())
+  </select>
+  
+  <select id="getIsOverOrder" resultMap="BaseResultMap">
+	SELECT * FROM tradeorder_detail td WHERE now()>CONCAT(td.meetDate,' ',td.meetEndTime) AND td.err_code!=4
   </select>
   
 </mapper>

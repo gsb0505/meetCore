@@ -72,4 +72,6 @@ public interface OrderDetailDao  extends BaseDao<OrderDetail>{
 	
 	public List<OrderDetail> getSendEmailInfo();
 	
+	public List<OrderDetail> getIsOverOrder();
+	
 }
