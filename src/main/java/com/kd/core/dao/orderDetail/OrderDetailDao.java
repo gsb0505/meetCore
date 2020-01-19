@@ -3,6 +3,8 @@ package com.kd.core.dao.orderDetail;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.kd.core.base.BaseDao;
 import com.kd.core.entity.OrderDetail;
 
@@ -73,5 +75,7 @@ public interface OrderDetailDao  extends BaseDao<OrderDetail>{
 	public List<OrderDetail> getSendEmailInfo();
 	
 	public List<OrderDetail> getIsOverOrder();
+	
+	public List<OrderDetail> getACompletedOrder();
 	
 }

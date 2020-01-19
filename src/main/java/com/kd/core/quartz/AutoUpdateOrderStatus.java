@@ -19,6 +19,25 @@ public class AutoUpdateOrderStatus{
 	private Logger logger=LoggerFactory.getLogger(AutoUpdateOrderStatus.class);
 	
 	public void updateOrderStatus(){
+		
+		List<OrderDetail> acomplete_orders=orderDetailDao.getACompletedOrder();
+		
+		logger.info(ORDERSTATUS+" 获取到的预约成功的会议记录数是："+acomplete_orders.size());
+		
+		if(acomplete_orders.size()<=0){
+			logger.info("未找到需要更新狀態的訂單！");
+			return;
+		}
+		
+		logger.info(ORDERSTATUS+" 获取到记录 准备进行状态更新。。。。。。");
+		
+		for (OrderDetail orderDetail : acomplete_orders) {
+			if(orderDetail.getErrCode()==2){
+				orderDetail.setErrCode(5); //使用中
+			}
+			orderDetailDao.update(orderDetail);
+		}
+		
 		logger.info(ORDERSTATUS+" 准备获取已结束的会议记录进行订单更新。。。。。。");
 		
 		List<OrderDetail> orders=orderDetailDao.getIsOverOrder();
@@ -33,9 +52,7 @@ public class AutoUpdateOrderStatus{
 		logger.info(ORDERSTATUS+" 获取到记录 准备进行状态更新。。。。。。");
 		
 		for (OrderDetail orderDetail : orders) {
-			if(orderDetail.getErrCode().equals("2")){
-				orderDetail.setErrCode(5); //使用中
-			}else{
+			if(orderDetail.getErrCode()==5){
 				orderDetail.setErrCode(4);
 			}
 			orderDetailDao.update(orderDetail);

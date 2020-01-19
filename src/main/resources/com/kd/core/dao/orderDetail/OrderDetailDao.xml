@@ -277,7 +277,11 @@ LEFT JOIN user_info u on u.userid=t.creator
   </select>
   
   <select id="getIsOverOrder" resultMap="BaseResultMap">
-	SELECT * FROM tradeorder_detail td WHERE now()>CONCAT(td.meetDate,' ',td.meetEndTime) AND td.err_code!=4
+	SELECT * FROM tradeorder_detail td WHERE now()>CONCAT(td.meetDate,' ',td.meetEndTime) AND td.err_code=5
+  </select>
+  
+  <select id="getACompletedOrder" resultMap="BaseResultMap">
+	SELECT * FROM tradeorder_detail td WHERE now()>=CONCAT(td.meetDate,' ',td.meetStartTime) AND CONCAT(td.meetDate,' ',td.meetEndTime)>=NOW() AND td.err_code=2
   </select>
   
 </mapper>
