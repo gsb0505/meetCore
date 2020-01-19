@@ -26,9 +26,20 @@
      <if test="upTime != null and upTime != ''">
     	and gsr.create_time &lt;= #{upTime,jdbcType=VARCHAR}
     </if>
-    
+
     <if test="reportType != null and reportType != ''">
-    	and gsr.goodsName!='月合计'
+        <choose>
+            <when test="reportType == 2">
+                and gsr.goodsName='月合计'
+            </when>
+            <when test="reportType == 3">
+                and gsr.goodsName='总计'
+            </when>
+            <otherwise>
+                and gsr.goodsName !='月合计' and gsr.goodsName!='总计'
+            </otherwise>
+        </choose>
+
     </if>
   </select>
   
