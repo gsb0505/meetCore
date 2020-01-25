@@ -60,7 +60,7 @@
 		loginPSW=#{loginPSW},userid=#{userId},
 		e_mail=#{email},phone=#{phone},remark=#{remark},
 		flag=#{flag},org_id=#{orgId},dep_id=#{depId},
-		update_time=now()
+		update_time=now(),photoUrl=#{photoUrl}
 		where id=#{id}
     </update>
     

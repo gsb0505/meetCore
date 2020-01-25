@@ -7,10 +7,17 @@ import com.kd.core.util.PropertiesUtil;
  * @Date: 2019/12/29 22:25
  **/
 public enum PathTypeEnum {
-
-
+    /**
+     * 商品图片类型
+     */
     PRODUCT("product",PropertiesUtil.readValue("product.prefix")),
+    /**
+     * 头像图片类型
+     */
     HEADER("header",PropertiesUtil.readValue("head.prefix")),
+    /**
+     * 会议图片类型
+     */
     MEETROOM("meetroom",PropertiesUtil.readValue("meetRoom.prefix")),
 
 

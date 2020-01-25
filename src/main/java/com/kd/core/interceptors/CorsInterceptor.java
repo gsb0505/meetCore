@@ -24,11 +24,13 @@ public class CorsInterceptor extends HandlerInterceptorAdapter {
         String origin = request.getHeader("Origin");
 
         if (StringUtils.isNotBlank(origin) && corsOrigins.contains(origin)) {
-            String haeaders = request.getHeader("Access-Control-Allow-Headers");
-            response.setHeader("Access-Control-Allow-Origin", origin);
+            //String haeaders = request.getHeader("Access-Control-Allow-Headers");
+
             //response.setHeader("Access-Control-Allow-Headers", haeaders);
-            response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With,cache-control, Content-Type, Accept, XFILENAME, XFILECATEGORY, XFILESIZE, " +
-                    "WG-App-Version, WG-Device-Id, WG-Network-Type, WG-Vendor, WG-OS-Type, WG-OS-Version, WG-Device-Model, WG-CPU, WG-Sid, WG-App-Id, WG-Token");
+//            response.setHeader("Access-Control-Allow-Headers", "Origin, X-Requested-With,cache-control, Content-Type, Accept, XFILENAME, XFILECATEGORY, XFILESIZE, " +
+//                    "WG-App-Version, WG-Device-Id, WG-Network-Type, WG-Vendor, WG-OS-Type, WG-OS-Version, WG-Device-Model, WG-CPU, WG-Sid, WG-App-Id, WG-Token");
+            response.setHeader("AAccess-Control-Allow-Headers", "Origin, Content-Type, cache-control,postman-token,Cookie, Accept,Access-Token");
+            response.setHeader("Access-Control-Allow-Origin", corsOrigins);
             response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS");
             response.setHeader("Access-Control-Allow-Credentials", "true");
 

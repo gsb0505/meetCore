@@ -1,11 +1,11 @@
 package com.kd.core.resource.external;
 
+import com.kd.core.dto.MessageDto;
+import com.kd.core.enumerate.MessageCodeEnum;
 import com.kd.core.enumerate.PathTypeEnum;
+import com.kd.core.util.ReturnUtil;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,30 +18,47 @@ import java.util.UUID;
  * @Date: 2019/12/29 18:28
  **/
 
-@CrossOrigin(origins = {"http://127.0.0.1:8081", "null"})
-@RequestMapping
+//@CrossOrigin(origins = {"http://127.0.0.1:8081", "null"})
+@CrossOrigin
 @Controller
+@RequestMapping
 public class ImageServiceController {
-    private final String reusltFail = "fail";
 
-    @PostMapping("uploadImage.do")
-    public String imageUpload(@RequestParam(value = "type") PathTypeEnum pathTypeEnum,
-            @RequestParam(value = "photoFile", required = false) MultipartFile photoFile,
-                              HttpServletRequest request){
+    @ResponseBody
+    @RequestMapping(value = "/test",method = {RequestMethod.GET,RequestMethod.OPTIONS,RequestMethod.POST})
+    public String test(){
+        return "test;";
+    }
+
+    /**
+     * 文件上传
+     * @param pathTypeEnum 文件类型
+     * @param photoFile  文件对象
+     * @param request
+     * @return 成功：返回文件webapp下的路径
+     */
+    @PostMapping("/uploadImage")
+    @ResponseBody
+    public MessageDto imageUpload(@RequestParam(value = "type", required = false) PathTypeEnum pathTypeEnum,
+                                  @RequestParam(value = "photoFile", required = false) MultipartFile photoFile,
+                                  HttpServletRequest request){
         if(pathTypeEnum == null){
-            return reusltFail;
+            return ReturnUtil.returnJson(MessageCodeEnum.ERROR.getCode(),"文件类型不能为空");
+        }
+        if(photoFile == null || photoFile.isEmpty()){
+            return ReturnUtil.returnJson(MessageCodeEnum.ERROR.getCode(),"文件不能为空");
         }
         String prefix = pathTypeEnum.getPath();
-
+        String path = null;
         try {
-            String path = savePhoto(photoFile, request,prefix);
+            path = savePhoto(photoFile, request,prefix);
             if(path == null){
-                return reusltFail;
+                return ReturnUtil.returnJson(MessageCodeEnum.FAIL.getCode(),"文件上传失败");
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return reusltFail;
+        return ReturnUtil.returnJson(MessageCodeEnum.SUCCESS.getCode(), path);
     }
 
     //保存头像图片
@@ -55,7 +72,7 @@ public class ImageServiceController {
 
             File mark = new File(path);
             if(!mark.exists()){
-                mark.mkdir();
+                mark.mkdirs();
             }
             File localFile = new File(path + filePath);
             photoUrl.transferTo(localFile);

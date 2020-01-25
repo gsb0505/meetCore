@@ -30,7 +30,7 @@ public class ValuedEnumConverter implements ConverterFactory<String,PathTypeEnum
                 return null;
             }
 
-            return (T)Enum.valueOf(this.enumType,s.trim());
+            return (T)enumType.getEnumConstants()[Integer.parseInt(s.trim())];
         }
     }
 }

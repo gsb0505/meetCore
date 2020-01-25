@@ -27,8 +27,10 @@
 
     <mvc:interceptors>
         <mvc:interceptor>
-            <mvc:mapping path="/**"/>
+            <mvc:mapping path="/external/**"/>
             <bean id="corsInterceptor" class="com.kd.core.interceptors.CorsInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
+    <mvc:resources location="/resources/" mapping="/resources/**"></mvc:resources>
+    <mvc:default-servlet-handler/>
 </beans>
