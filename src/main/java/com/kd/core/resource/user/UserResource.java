@@ -110,9 +110,21 @@ public class UserResource {
 	 */
 	@POST
 	@Path("modify")
-	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON}) 
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
 	public boolean modifyClientUser(UserInfo userInfo) throws Exception {
 		return userService.update(userInfo);
+	}
+	/**
+	 * 非空修改
+	 * @param userInfo
+	 * @return
+	 * @throws Exception
+	 */
+	@POST
+	@Path("modifyByCondition")
+	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON})
+	public boolean modifyByCondition(UserInfo userInfo) {
+		return userService.updateByCondition(userInfo);
 	}
 	
 	/**

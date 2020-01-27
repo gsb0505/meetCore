@@ -55,12 +55,46 @@
     </select> 
 	<!-- 更新用户 --> 
 	<update id="update" parameterType="UserInfo">
-	    
 		update user_info set
 		loginPSW=#{loginPSW},userid=#{userId},
 		e_mail=#{email},phone=#{phone},remark=#{remark},
 		flag=#{flag},org_id=#{orgId},dep_id=#{depId},
 		update_time=now(),photoUrl=#{photoUrl}
+		where id=#{id}
+    </update>
+
+	<update id="updateByCondition" parameterType="UserInfo">
+		update user_info
+		<set>
+			<if test="userId != null and userId != ''" >
+				userid=#{userId},
+			</if>
+			<if test="loginPSW != null and loginPSW != ''">
+				loginPSW=#{loginPSW},
+			</if>
+			<if test="email != null and email != ''">
+				e_mail=#{email},
+			</if>
+			<if test="phone != null and phone != ''">
+				phone=#{phone},
+			</if>
+			<if test="remark != null and remark != ''">
+				remark=#{remark},
+			</if>
+			<if test="flag != null and flag != ''">
+				flag=#{flag},
+			</if>
+			<if test="orgId != null and orgId != ''">
+				org_id=#{orgId},
+			</if>
+			<if test="depId != null and depId != ''">
+				dep_id=#{depId},
+			</if>
+			<if test="photoUrl != null and photoUrl != ''">
+				photoUrl=#{photoUrl},
+			</if>
+			update_time=now()
+		</set>
 		where id=#{id}
     </update>
     

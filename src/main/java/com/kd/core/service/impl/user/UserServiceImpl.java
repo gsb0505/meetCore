@@ -38,6 +38,12 @@ public class UserServiceImpl extends BaseServiceImpl<UserInfo, UserDao> implemen
     }
 
     @Override
+    public boolean updateByCondition(UserInfo user) {
+        int result = dao.updateByCondition(user);
+        return result > 0 ? true : false;
+    }
+
+    @Override
     public boolean update(UserInfo t) {
         int result = dao.update(t);
         return result > 0 ? true : false;

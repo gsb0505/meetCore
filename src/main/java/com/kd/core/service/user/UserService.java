@@ -30,4 +30,11 @@ public interface UserService extends BaseService<UserInfo>{
 	 * @return
 	 */
 	public boolean delByUserId(String userId);
+
+	/**
+	 * 根据是否为空进行修改
+	 * @param user
+	 * @return
+	 */
+	public boolean updateByCondition(UserInfo user);
 }

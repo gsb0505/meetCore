@@ -22,4 +22,11 @@ public interface UserDao extends BaseDao<UserInfo> {
 	
 	public int delByUserId(String userId);
 	public UserInfo getByUserid(String username);
+
+	/**
+	 * 根据条件修改
+	 * @param user
+	 * @return
+	 */
+	public int updateByCondition(UserInfo user);
 }
