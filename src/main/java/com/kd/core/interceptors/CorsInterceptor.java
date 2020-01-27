@@ -23,7 +23,7 @@ public class CorsInterceptor extends HandlerInterceptorAdapter {
 
         String origin = request.getHeader("Origin");
 
-        if (StringUtils.isNotBlank(origin) && corsOrigins.contains(origin)) {
+        if (StringUtils.isNotBlank(origin)) {
             //String haeaders = request.getHeader("Access-Control-Allow-Headers");
 
             //response.setHeader("Access-Control-Allow-Headers", haeaders);

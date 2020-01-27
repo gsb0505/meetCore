@@ -108,13 +108,11 @@ public class UserResource {
 	 * @return
 	 * @throws Exception
 	 */
-	@PUT
+	@POST
 	@Path("modify")
 	@Consumes({MediaType.APPLICATION_XML, MediaType.APPLICATION_JSON}) 
 	public boolean modifyClientUser(UserInfo userInfo) throws Exception {
-
 		return userService.update(userInfo);
-
 	}
 	
 	/**
