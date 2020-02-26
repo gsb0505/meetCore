@@ -49,7 +49,7 @@
    		and DATE_FORMAT(td.meetDate,'%Y-%m-%d') = DATE_FORMAT(NOW(),'%Y-%m-%d')
     	and ((td.meetStartTime &lt;= DATE_FORMAT(now(),'%H:%i') and td.meetEndTime &gt;= DATE_FORMAT(now(),'%H:%i')) 
     	or (td.meetStartTime &gt;= DATE_FORMAT(now(),'%H:%i')))
-    	and td.err_code = 2
+    	and (td.err_code = 2 or td.err_code=5)
    	order by td.meetStartTime asc
   </select>
 
